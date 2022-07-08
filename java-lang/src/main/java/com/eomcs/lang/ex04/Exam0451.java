@@ -8,11 +8,11 @@ public class Exam0451 {
     java.util.Date d1 = new java.util.Date();
     java.util.Date d2 = d1;
     
-    System.out.printf("%d, %d\n", d1.getDate(), d2.getDate());
+    System.out.printf("%d, %d\n", d1.getDate(), d2.getDate()); // 1,1
     
     d1.setDate(22);
     
-    System.out.printf("%d, %d\n", d1.getDate(), d2.getDate());
+    System.out.printf("%d, %d\n", d1.getDate(), d2.getDate()); // 22,22
     // d1에 저장된 일자 값을 변경한 후 
     // d2에 저장된 일자 값을 출력해 보면 d1과 똑같이 변경되어 있다.
     // 이유는?
