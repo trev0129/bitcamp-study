@@ -14,8 +14,9 @@ public class Exam0610 {
     // 상수
     // => 값을 오직 한 번만 저장할 수 있다.
     // => 변수 앞에 final을 붙여라!
-    final int b = 100;
-      System.out.println(b); // 100
+    final int b;
+    b = 100;
+
     // 만약 final로 선언된 변수의 값을 두 번째로 바꾸려 한다면?
     //    b = 200; // 컴파일 오류!
 

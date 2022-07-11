@@ -30,10 +30,3 @@ public class Exam0610 {
 
   }
 }
-
-
-
-int i = 3, j = 4;
-int z = 0;
-
-\

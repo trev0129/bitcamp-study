@@ -19,7 +19,7 @@ public class Exam0820 {
       // 이 블록에서 선언된 모든 변수는 제거된다.
       // 그래서 b 변수는 제거된다.
     }
-    System.out.println(a); // 200
+    System.out.println(a);
 
     // 바깥 블록에서는 안쪽 블록의 변수를 사용할 수 없다.
     // 왜?

@@ -30,9 +30,6 @@ public class Exam0620 {
     // 새 문자열을 만들어 부동소수점을 붙인다.
     // "키:" + 170.5f = "키:170.5" <== 부동소수점 접미사 f 는 새로 만든 문자열에 붙지 않는다.
     System.out.println("키:" + 170.5f);
-
-    int a=10;
-    System.out.println("a는" + a + "입니다.");
   }
 }
 
