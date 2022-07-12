@@ -26,7 +26,6 @@ public class Exam0160 {
         }
       }
     }
-
     keyScan.close();
   }
 }

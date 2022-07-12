@@ -20,6 +20,13 @@ public class Exam0680 {
     // 3) int result = 23;
 
     System.out.println(result); // 23
+
+
+    double f1 = 3.14123f;
+    double d1 = 3.14123;
+    System.out.println(f1);
+    System.out.println(d1);
+    
   }
 }
 

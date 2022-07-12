@@ -24,7 +24,7 @@ public class Exam0161 {
           if (age < 65)
             System.out.println("성인입니다.");
           else
-            System.out.println("노인입니다.");
+            System.out.println("노인입니다."); // 24-27 의 if 는 단독 가능하고 else는 단독 불가능, if else 한 문장임. 한문장은 중괄호 생략가능
 
     keyScan.close();
   }

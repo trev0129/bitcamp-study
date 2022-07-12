@@ -11,14 +11,20 @@ public class App {
     System.out.println();
     System.out.println("환영합니다!");
     System.out.println();
+    
+    String title = "";
+    String content = "";
+    String writer = "";
+    String password = "";
 
     java.util.Scanner keyboardInput = new java.util.Scanner(System.in);
     while (true) {
       System.out.println("메뉴:");
       System.out.println("  1: 게시글 목록");
       System.out.println("  2: 게시글 상세보기");
+      System.out.println("  3: 게시글 등록");
       System.out.println();
-      System.out.print("메뉴를 선택하세요. [1..2](0: 종료) ");
+      System.out.print("메뉴를 선택하세요. [1..3](0: 종료) ");
 
       int menuNo = keyboardInput.nextInt();
       keyboardInput.nextLine(); //입력한 숫자 뒤에 남아있는 줄바꿈 코드 제거
@@ -44,17 +50,31 @@ public class App {
         System.out.printf("%d\t%s\t%d\t%s\t%s\n", 
         4, "제목입니다.4", 45, "홍길동", "2022-07-08");
       } else if (menuNo == 2) {
-        System.out.println("[게시판 상세보기]");
+        System.out.println("[게시글 상세보기]");
 
         System.out.printf("번호: %d\n", 1);
-        System.out.printf("제목: %s\n", "제목입니다.");
-        System.out.printf("내용: %s\n", "내용입니다");
+        System.out.printf("제목: %s\n", title);
+        System.out.printf("내용: %s\n", content);
         System.out.printf("조회수: %d\n", 100);
-        System.out.printf("작성자: %s\n", "홍길동");
+        System.out.printf("작성자: %s\n", writer);
         System.out.printf("등록일: %s\n", "2022-07-08");
+      } else if (menuNo == 3) {
+        System.out.println("[게시글 등록]");
+        System.out.print("제목? ");
+        title = keyboardInput.nextLine();
+
+        System.out.print("내용? ");
+        content = keyboardInput.nextLine();
+
+        System.out.print("작성자? ");
+        writer = keyboardInput.nextLine();
+
+        System.out.print("암호? ");
+        password = keyboardInput.nextLine();
       } else {
         System.out.println("1에서 2사이의 메뉴 번호를 입력하세요. ");
       }
+      System.out.println(); // 메뉴 처리 후 빈줄 출력
     } //while문 종료 
     System.out.println("안녕히가세요!");
   } 
