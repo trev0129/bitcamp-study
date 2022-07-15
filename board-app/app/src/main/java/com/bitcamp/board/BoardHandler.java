@@ -3,33 +3,26 @@
  */
 package com.bitcamp.board;
 
-import javax.swing.plaf.synth.SynthSplitPaneUI;
-
 public class BoardHandler {
 
   static int boardCount = 0; // 저장된 게시글의 개수    
 
   static final int SIZE = 3;
-  static int[] no = new int[SIZE];
-  static String[] title = new String[SIZE];
-  static String[] content =  new String[SIZE];
-  static String[] writer =  new String[SIZE];
-  static String[] password =  new String[SIZE];
-  static int[] viewCount =  new int[SIZE];
-  static long[] createdDate =  new long[SIZE];
-
+  // Board 인스턴스의 주소를 저장할 수 있는 배열을 만든다.
+  static Board[] boards = new Board[SIZE];
   static void processList() {
     java.text.SimpleDateFormat formatter = 
-      new java.text.SimpleDateFormat("yyyy-MM-dd");
+        new java.text.SimpleDateFormat("yyyy-MM-dd");
 
     System.out.println("[게시글 목록]");
     System.out.println("번호 제목 조회수 작성자 등록일");
 
     for (int i = 0; i < boardCount; i++) {
-      java.util.Date date = new java.util.Date(createdDate[i]);
+      Board board = boards[i];
+      java.util.Date date = new java.util.Date(board.createdDate);
       String dateStr = formatter.format(date);
       System.out.printf("%d\t%s\t%d\t%s\t%s\n", 
-        no[i], title[i], viewCount[i], writer[i], dateStr);
+          board.no, board.title, board.viewCount, board.writer, dateStr);
     }
 
   }
@@ -38,25 +31,25 @@ public class BoardHandler {
     System.out.println("[게시글 상세보기]");
 
     int boardNo = Prompt.inputInt("조회할 게시글 번호? ");
-    
-    int boardIndex = -1; 
-    for (int i = 0; i < boardCount; i++) {
-      if (no[i] == boardNo) {
-        boardIndex = i;
-        break;
-        }
-      }
 
-      if (boardIndex == -1) {
-        System.out.println("해당 번호의 게시글이 없습니다!");
-        return;
+    Board board = null;
+    for (int i = 0; i < boardCount; i++) {
+      if (boards[i].no == boardNo) {
+        board = boards[i];
+        break;
       }
-    System.out.printf("번호: %d\n", no[boardIndex]);
-    System.out.printf("제목: %s\n", title[boardIndex]);
-    System.out.printf("내용: %s\n", content[boardIndex]);
-    System.out.printf("조회수: %d\n", viewCount[boardIndex]);
-    System.out.printf("작성자: %s\n", writer[boardIndex]);
-    java.util.Date date= new java.util.Date(createdDate[boardIndex]);
+    }
+
+    if (board == null) {
+      System.out.println("해당 번호의 게시글이 없습니다!");
+      return;
+    }
+    System.out.printf("번호: %d\n", board.no);
+    System.out.printf("제목: %s\n", board.title);
+    System.out.printf("내용: %s\n", board.content);
+    System.out.printf("조회수: %d\n", board.viewCount);
+    System.out.printf("작성자: %s\n", board.writer);
+    java.util.Date date= new java.util.Date(board.createdDate);
     System.out.printf("작성일: %1$tY-%1$tm-%1$td %1$tH:%1$tM\n", date);
 
   }
@@ -69,16 +62,77 @@ public class BoardHandler {
       System.out.println("게시글을 더 이상 저장할 수 없습니다.");
       return;
     }
-    title[boardCount] = Prompt.inputString("제목? ");
-    content[boardCount] = Prompt.inputString("내용? ");
-    writer[boardCount] = Prompt.inputString("작성자? ");
-    password[boardCount] = Prompt.inputString("암호? ");
+    Board board = new Board();
+    board.title = Prompt.inputString("제목? ");
+    board.content = Prompt.inputString("내용? ");
+    board.writer = Prompt.inputString("작성자? ");
+    board.password = Prompt.inputString("암호? ");
 
-    no[boardCount] = boardCount == 0 ? 1 : no[boardCount - 1] + 1; 
+    board.no = boardCount == 0 ? 1 : boards[boardCount - 1] .no + 1; 
 
-    viewCount[boardCount] = 0;
-    createdDate[boardCount] = System.currentTimeMillis();
-    
+    board.viewCount = 0;
+    board.createdDate = System.currentTimeMillis();
+
+    // 새로만든 인스턴스 주소를 레퍼런스 배열에 저장한다.
+    boards[boardCount] = board;
+
     boardCount++;
   }
+
+  static void processDelite() {
+    System.out.println("[게시글 삭제]");
+    int boardNo = Prompt.inputInt("삭제할 게시글 번호? ");
+    int boardIndex = -1;
+    for (int i = 0; i < boardCount; i++) {
+      if (boards[i].no == boardNo) {
+        boardIndex = i;
+        break;
+      }
+    }
+    if (boardIndex == -1) {
+      System.out.println("해당 번호의 게시글이 없습니다!");
+      return;
+    }
+    for ( int i = boardIndex + 1; i < boardCount; i++) {
+      boards[i - 1] = boards[i];
+    } 
+    boards[--boardCount] = null;
+    System.out.println("삭제하였습니다.");
+  }
+
+  public static void processUpdate() {
+    System.out.println("[게시글 변경]");
+    int boardNo = Prompt.inputInt("변경할 게시글 번호? ");
+    int boardIndex = -1;
+    for (int i = 0; i < boardCount; i++) {
+      if (boards[i].no == boardNo) {
+        boardIndex = i;
+        break;
+      }
+    }
+    if (boardIndex == -1) {
+      System.out.println("해당 번호의 게시글이 없습니다!");
+      return;
+    }
+    Board board = new Board();
+    Board updateBoard = boards[boardIndex];
+    board.title = Prompt.inputString("제목? (" + updateBoard.title + ")");
+    board.content = Prompt.inputString("내용? (" + updateBoard.content + ")");
+
+    while (true) {
+      char str = Prompt.inputChar("변경하시겠습니까? (y/n)");
+      if (str == 'y') {
+        updateBoard.title = board.title;
+        updateBoard.content = board.content;
+        System.out.println("변경하였습니다.");
+        break;
+      } else if (str == 'n') {
+        System.out.println("취소하였습니다.");
+        break;
+      } else {
+        System.out.println("잘못입력하였습니다.");
+      }
+    }
+  }
+
 }
