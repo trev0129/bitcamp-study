@@ -1,4 +1,4 @@
-package com.eomcs.quiz.ex01;
+package com.eomcs.quiz.ex01.sol;
 
 // [문제] 
 // 패리티(parity)를 구하라!
@@ -15,13 +15,21 @@ public class Test02 {
     int p = parity(0b01100011);
     System.out.println(p == 0); // true
 
+    System.out.println("------------------------");
+
     p = parity(0b01010111_01100011);
     System.out.println(p == 1); // true
   }
 
   static int parity(int value) {
     int r = 0;
-    // 이 메서드를 완성하시오!
+
+    while (value != 0) {
+      r ^= (value & 1);
+      value >>>= 1;
+      System.out.println("==>");
+    }
+
     return r;
   }
 

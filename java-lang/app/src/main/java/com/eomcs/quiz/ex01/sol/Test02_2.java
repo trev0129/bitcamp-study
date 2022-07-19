@@ -1,4 +1,4 @@
-package com.eomcs.quiz.ex01;
+package com.eomcs.quiz.ex01.sol;
 
 // [문제] 
 // 패리티(parity)를 구하라!
@@ -9,11 +9,13 @@ package com.eomcs.quiz.ex01;
 // - 반복문 활용
 // - 메서드 파라미터 및 리턴 값 다루기
 //
-public class Test02 {
+public class Test02_2 {
 
   public static void main(String[] args) {
     int p = parity(0b01100011);
     System.out.println(p == 0); // true
+
+    System.out.println("------------------------");
 
     p = parity(0b01010111_01100011);
     System.out.println(p == 1); // true
@@ -21,7 +23,13 @@ public class Test02 {
 
   static int parity(int value) {
     int r = 0;
-    // 이 메서드를 완성하시오!
+
+    while (value != 0) {
+      r ^= 1;
+      value &= (value -1);
+      System.out.println("==>");
+    }
+
     return r;
   }
 

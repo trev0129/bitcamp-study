@@ -5,13 +5,10 @@ public class App {
   public static void main(String[] args) {
     System.out.println("[게시글 어플리케이션!]");
     System.out.println("환영합니다!");
-    System.out.println();
 
     java.util.Scanner keyboardInput = new java.util.Scanner(System.in);
 
-    java.text.SimpleDateFormat formatter = new java.text.SimpleDateFormat("yyyy-MM-dd");
-
-    int no= 0;
+    int no = 0;
     String title = "";
     String content = "";
     String writer = "";
@@ -19,20 +16,16 @@ public class App {
     int viewCount = 0;
     long createDate = 0;
 
-    int count = 1;
+    int boardCount = 0;
 
     while (true) {
-
-      System.out.println("메뉴를 선택하세요.");
-      System.out.println("------------------");
-      System.out.println("1 게시글 목록");
-      System.out.println("2 게시글 상세보기");
-      System.out.println("3 게시글 작성");
-      System.out.println("4 게시글 삭제");
-      System.out.println("5 게시글 수정");
+      System.out.println("메뉴");
+      System.out.println("1: 게시글 목록");
+      System.out.println("2: 게시글 상세보기");
+      System.out.println("3: 게시글 작성");
       System.out.println();
-      System.out.println("메뉴를 선택하세요.[1..5][종료: 0]");
-      System.out.println("------------------");
+      System.out.println("번호를 입력하세요.[1..3][종료: 0]");
+
       String str = keyboardInput.nextLine();
       int menuNo = Integer.parseInt(str);
 
@@ -40,23 +33,28 @@ public class App {
         break;
       } else if (menuNo == 1) {
         System.out.println("[게시글 목록]");
-        System.out.println("번호 제목 작성자 조회수 작성일");
-        System.out.printf("%d %s %s %d %s", 1, "aaaa", "aaa", 1, "2022-07-18");
+        System.out.println("번호 제목 조회수 작성자 등록일");
+        System.out.printf("%d\t%s\t%d\t%s\t%s\n",
+            no, title, viewCount, writer, "2022-07-08");
+
       } else if (menuNo == 2) {
-        java.util.Date date = new java.util.Date(createDate);
-        String dateStr = formatter.format(date);
         System.out.println("[게시글 상세보기]");
         System.out.println("게시글 번호? ");
+        String input = keyboardInput.nextLine();
+        int boardinput = Integer.parseInt(input);
+
         System.out.printf("번호: %d\n", no);
         System.out.printf("제목: %s\n", title);
         System.out.printf("내용: %s\n", content);
         System.out.printf("조회수: %d\n", viewCount);
         System.out.printf("작성자: %s\n", writer);
 
-        System.out.printf("등록일: %s\n", dateStr);
+        java.util.Date date = new java.util.Date(createDate);
 
-      } else if(menuNo == 3) {
-        System.out.println("[게시글 작성]");
+        System.out.printf("등록일: 등록일: %tY-%1$tm-%1$td %1$tH:%1$tM\\n", date);  
+
+      } else if (menuNo == 3) {
+        System.out.println("[게시글 등록]");
         System.out.println("제목? ");
         title = keyboardInput.nextLine();
         System.out.println("내용? ");
@@ -65,18 +63,15 @@ public class App {
         writer = keyboardInput.nextLine();
         System.out.println("비밀번호? ");
         password = keyboardInput.nextLine();
-        no = count;
+
+        no = 1;
         viewCount = 0;
+        boardCount++;
+
         createDate = System.currentTimeMillis();
-        count++;
-      } else {
-        System.out.println("잘못 입력하셨습니다.");
       }
-
-
-
-
-    } //while 종료
+    } //    while 종료
     System.out.println("안녕히 가세요!");
+    System.out.println();
   }
 }

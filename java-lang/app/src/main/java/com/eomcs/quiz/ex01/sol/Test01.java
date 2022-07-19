@@ -1,4 +1,4 @@
-package com.eomcs.quiz.ex01;
+package com.eomcs.quiz.ex01.sol;
 
 // [문제] 
 // 파라미터로 주어진 정수 값을 2진수로 표현했을 때 1로 설정된 비트의 개수를 구하라!
@@ -19,7 +19,12 @@ public class Test01 {
 
   static int countBits(int value) {
     int r = 0;
-    // 이 메서드를 완성하시오!
+
+    while (value != 0) {
+      r += (value & 1); // 1
+      value >>>= 1;
+    }
+
     return r;
   }
 
