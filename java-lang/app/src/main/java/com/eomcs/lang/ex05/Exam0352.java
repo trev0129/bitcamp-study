@@ -8,7 +8,7 @@ public class Exam0352 {
     System.out.println(57 % 2 == 0 ? "짝수" : "홀수");
 
     // & 연산자를 이용하여 짝수/홀수 알아내기
-    System.out.println((57 & 0x1) == 0 ? "짝수" : "홀수"); //"57에서 맨 끝에 1비트를 추출한 값이 0이면 짝수 아니면 홀수다"
+    System.out.println((57 & 0x1) == 0 ? "짝수" : "홀수");
 
   }
 }

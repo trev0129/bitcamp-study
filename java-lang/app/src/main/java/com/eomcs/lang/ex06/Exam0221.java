@@ -27,7 +27,7 @@ public class Exam0221 {
         break; // 여기까지만 실행한다.
       case 3:
         System.out.println("이력서");
-        break; // 여기까지만 실행한다.      // break가 없다면 1이면 1,2,3 2면 2,3 3이면 3 실행
+        break; // 여기까지만 실행한다.
       default:
         System.out.println("올바른 번호를 입력하세요!");
     }

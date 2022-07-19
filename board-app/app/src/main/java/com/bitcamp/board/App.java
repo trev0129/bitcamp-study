@@ -21,7 +21,7 @@ public class App {
           case 3: BoardHandler.processInput(); break;
           case 4: BoardHandler.processDelite(); break;
           case 5: BoardHandler.processUpdate(); break;
-          default: System.out.println("1에서 5사이의 메뉴 번호를 입력하세요. ");
+          default: System.out.println("메뉴에 있 번호를 입력하세요. ");
         }  
 
         displayBlankLine();

@@ -25,7 +25,7 @@ public class Exam0331 {
         x++;
         y = 1;
       }
-    System.out.println("종료!!");   // 여기까지 하고싶다면? {} 활용 -> myloop: { ~ "종료!");}
+    System.out.println("종료!!");
 
     System.out.println("-----------------------------");
   }

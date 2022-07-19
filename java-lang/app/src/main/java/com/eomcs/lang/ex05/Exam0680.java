@@ -20,9 +20,6 @@ public class Exam0680 {
     // 3) int result = 23;
 
     System.out.println(result); // 23
-
-
-
   }
 }
 
