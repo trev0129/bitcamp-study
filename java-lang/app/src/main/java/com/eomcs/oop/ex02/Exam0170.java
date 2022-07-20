@@ -12,6 +12,18 @@ package com.eomcs.oop.ex02;
 //6) 패키지 멤버 클래스: 
 //     => 여러 곳에서 사용할 클래스라면 다른 클래스에 안에 두지 말고 
 //        패키지의 멤버 클래스로 둬라!
+//7) 클래스를 역할에 따라 패키지로 분류
+//     => 클래스가 많을 경우 유지보수하기 쉽도록 적절한 패키지로 분산 배치한다.
+//     => 데이터 타입의 역할을 하는 클래스의 경우 
+//        보통 domain, vo(value object), dto(data transfer object) 라는 이름을 가진 
+//        패키지에 분류한다.
+//     => 패키지가 다르면 modifier 옵션에 따라 접근 범위가 달라진다. 
+//   멤버의 접근 범위 설정
+//     => public: 모두 공개
+//     => protected: 서브 클래스와 같은 패키지의 멤버는 접근 가능
+//     => (default): 같은 패키지의 멤버는 접근 가능
+//     => private: 접근 불가! 그 멤버가 속한 클래스의 내부에서만 접근 가능
+
 import com.eomcs.oop.ex02.domain.Score;
 
 public class Exam0170 {

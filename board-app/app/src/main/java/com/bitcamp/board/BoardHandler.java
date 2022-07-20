@@ -10,6 +10,38 @@ public class BoardHandler {
   static final int SIZE = 3;
   // Board 인스턴스의 주소를 저장할 수 있는 배열을 만든다.
   static Board[] boards = new Board[SIZE];
+
+  static void execute() {
+    while (true) {
+      System.out.println("게시판:");
+      System.out.println("  1: 목록");
+      System.out.println("  2: 상세보기");
+      System.out.println("  3: 등록");
+      System.out.println("  4: 삭제");
+      System.out.println("  5: 변경");
+      System.out.println();
+      int menuNo = Prompt.inputInt("메뉴를 선택하세요. [1..5](0: 이전) ");
+      displayHeadLine();
+
+      switch (menuNo) {
+        case 0: return;
+        case 1: BoardHandler.processList(); break;
+        case 2: BoardHandler.processDetail(); break;
+        case 3: BoardHandler.processInput(); break;
+        case 4: BoardHandler.processDelite(); break;
+        case 5: BoardHandler.processUpdate(); break;
+        default: System.out.println("메뉴에 있는 번호를 입력하세요. ");
+      }  // 게시판 while
+    }
+  }
+
+  static void displayHeadLine() {
+    System.out.println("-------------------------------------");
+  }
+  static void displayBlankLine() {
+    System.out.println(); // 메뉴 처리 후 빈줄 출력 
+  }
+
   static void processList() {
     java.text.SimpleDateFormat formatter = 
         new java.text.SimpleDateFormat("yyyy-MM-dd");

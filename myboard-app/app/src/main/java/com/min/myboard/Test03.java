@@ -1,4 +1,4 @@
-package com.eomcs.quiz.ex01;
+package com.min.myboard;
 
 // [문제] 
 // 두 위치의 비트 값을 맞교환 하라! 
@@ -22,18 +22,38 @@ public class Test03 {
   }
 
   static int swapBits(int value, int i, int j) {
-    // 이 메서드를 완성하시오!
     int r, r1, r2, r3, r4;
-    r1 = (value >>> i) << j;
-    r2 = (value >>> j) << i;
-    r3 = ((value >>> i) & 1) << i;
-    r4 = ((value >>> j) & 1) << j;
-    r = value & ~r3;
-    r = value & ~r4;
+
+    //i, j 값을 그대로 알아내고 위치를 바꿈, 그리고 나머지는 0으도 함
+    r1 = ((value >>> i) & 1) << j;
+    r2 = ((value >>> j) & 1) << i; 
+
+    //i,j 자리 무조건 1로 만들고 나머지는 0으로 함 
+    r3 = 1 << i;
+    r4 = 1 << j; 
+
+    // ~연산자 활용 해서 그 자리만 0이되게 함
+    r = value & ~r3; 
+    r = value & ~r4; 
+
+    // 빈자리를 바꾼 값으로  각각 채워줌 
     r |= r1;
     r |= r2;
 
-    return r;
-  }
 
-}
+    return r;
+    /*
+    static int swapBits(int value, int i, int j) {
+      int set1 = (value >> i) & ((1 << 2) - 1);
+      int set2 = (value >> j) & ((1 << 2) - 1);
+      int xor = (set1 ^ set2);
+
+      xor = (xor << i) | (xor << j);
+
+      int result = value ^ xor;
+
+      return result;
+    }
+     */
+
+  }

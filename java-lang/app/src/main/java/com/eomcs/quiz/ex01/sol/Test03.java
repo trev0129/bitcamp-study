@@ -1,9 +1,9 @@
-package com.eomcs.quiz.ex01;
+package com.eomcs.quiz.ex01.sol;
 
 // [문제] 
 // 두 위치의 비트 값을 맞교환 하라! 
 // 예) 값:   0b00101100_01110001
-//     2번째(2^2 자리) 비트와 13번째(2^13 자리) 비트s
+//     2번째(2^2 자리) 비트와 13번째(2^13 자리) 비트
 //     결과: 0b00001100_01110101
 //  
 // [훈련 목표]
@@ -21,19 +21,12 @@ public class Test03 {
     System.out.println(r == 0b01010111_01100011); // true
   }
 
-  static int swapBits(int value, int i, int j) {
-    // 이 메서드를 완성하시오!
-    int r, r1, r2, r3, r4;
-    r1 = (value >>> i) << j;
-    r2 = (value >>> j) << i;
-    r3 = ((value >>> i) & 1) << i;
-    r4 = ((value >>> j) & 1) << j;
-    r = value & ~r3;
-    r = value & ~r4;
-    r |= r1;
-    r |= r2;
-
-    return r;
+  static int swapBits(int value, int i, int j) { 
+    if (((value >>> i) & 1) != ((value >>> j) & 1)) {
+      int bitMask = (1 << i) | (1 << j);
+      value ^= bitMask;  
+    }
+    return value;
   }
 
 }
