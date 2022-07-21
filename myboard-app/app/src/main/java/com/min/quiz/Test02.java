@@ -1,4 +1,4 @@
-package com.min.myboard;
+package com.min.quiz;
 
 // [문제] 
 // 패리티(parity)를 구하라!

@@ -6,23 +6,16 @@ package com.bitcamp.board;
 public class Prompt {
 
   static java.util.Scanner keyboardInput = new java.util.Scanner(System.in);
-  // 특정 날짜정보에서 값을 추출하여 특정 포맷의 문자열을 만들어줄 도구 준비
 
   static int inputInt() {
     String str = keyboardInput.nextLine();
-    return Integer.parseInt(str);
+    return Integer.parseInt(str); //"123" ==> 123, "5" ==> 5, "ok" ==> 실행 오류!
   }
 
   static int inputInt(String title) {
-    System.out.println(title);
+    System.out.print(title);
     String str = keyboardInput.nextLine();
-    return Integer.parseInt(str);
-  }
-
-  static char inputChar(String title) {
-    System.out.println(title);
-    String str = keyboardInput.nextLine();
-    return str.charAt(0);
+    return Integer.parseInt(str); 
   }
 
   static String inputString() {
@@ -30,12 +23,11 @@ public class Prompt {
   }
 
   static String inputString(String title) {
-    System.out.println(title);
+    System.out.print(title);
     return keyboardInput.nextLine();
   }
 
   static void close() {
     keyboardInput.close();
   }
-
 }

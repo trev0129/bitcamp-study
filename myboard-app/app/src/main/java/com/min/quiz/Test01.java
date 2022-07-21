@@ -1,4 +1,4 @@
-package com.min.myboard;
+package com.min.quiz;
 
 // [문제] 
 // 파라미터로 주어진 정수 값을 2진수로 표현했을 때 1로 설정된 비트의 개수를 구하라!

@@ -1,4 +1,4 @@
-package com.min.myboard;
+package com.min.quiz;
 
 // [문제] 
 // 두 위치의 비트 값을 맞교환 하라! 
@@ -22,26 +22,41 @@ public class Test03 {
   }
 
   static int swapBits(int value, int i, int j) {
-    int r, r1, r2, r3, r4;
+
+    int iBit = (value >>> i) & 1;
+    int jBit = (value >>> j) & 1; 
+
+    if (iBit != jBit) {
+      int iMask = 1 << i;
+      int jMask = 1 << j;
+      int bitMask = iMask | jMask;
+      value = value ^ bitMask;
+    }
+    return value;
+
+
+    /* 내 답변
+    int result, iBit, jBit, iPosition, jPosition;
 
     //i, j 값을 그대로 알아내고 위치를 바꿈, 그리고 나머지는 0으도 함
-    r1 = ((value >>> i) & 1) << j;
-    r2 = ((value >>> j) & 1) << i; 
+    iBit = ((value >>> i) & 1) << j;
+    jBit = ((value >>> j) & 1) << i; 
 
     //i,j 자리 무조건 1로 만들고 나머지는 0으로 함 
-    r3 = 1 << i;
-    r4 = 1 << j; 
+    iPosition = 1 << i;
+    jPosition = 1 << j; 
 
     // ~연산자 활용 해서 그 자리만 0이되게 함
-    r = value & ~r3; 
-    r = value & ~r4; 
+    result = value & ~iPosition; 
+    result = value & ~jPosition; 
 
     // 빈자리를 바꾼 값으로  각각 채워줌 
-    r |= r1;
-    r |= r2;
+    result |= iBit;
+    result |= jBit;
 
 
-    return r;
+    return result;
+     */
     /*
     static int swapBits(int value, int i, int j) {
       int set1 = (value >> i) & ((1 << 2) - 1);
@@ -53,7 +68,6 @@ public class Test03 {
       int result = value ^ xor;
 
       return result;
-    }
      */
-
   }
+}

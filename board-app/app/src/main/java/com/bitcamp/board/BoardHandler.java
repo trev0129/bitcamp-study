@@ -1,170 +1,166 @@
 /*
- * 게시판 메뉴 처리 클래스
+ * 게시글 메뉴 처리 클래스
  */
 package com.bitcamp.board;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class BoardHandler {
 
-  static int boardCount = 0; // 저장된 게시글의 개수    
+  String title;
 
-  static final int SIZE = 3;
-  // Board 인스턴스의 주소를 저장할 수 있는 배열을 만든다.
-  static Board[] boards = new Board[SIZE];
+  // 게시글 목록을 관리할 객체 준
+  BoardList boardList = new BoardList();
 
-  static void execute() {
+  public BoardHandler() {
+    this.title = "게시판";
+  }
+
+  //제목을 입력받느생성
+  BoardHandler(String title) {
+    this.title = title;
+  }
+
+  void execute() {
+    // App 클래스에서 메서드를 호출 할 떄 BoardHandler의 인스턴스 주소를 줄 것이다.
+    // 그 주소는 this라는 내장 변수에 저장된다.
     while (true) {
-      System.out.println("게시판:");
+      System.out.printf("%s:\n", this.title);
       System.out.println("  1: 목록");
       System.out.println("  2: 상세보기");
       System.out.println("  3: 등록");
       System.out.println("  4: 삭제");
       System.out.println("  5: 변경");
       System.out.println();
-      int menuNo = Prompt.inputInt("메뉴를 선택하세요. [1..5](0: 이전) ");
-      displayHeadLine();
 
+      int menuNo = Prompt.inputInt("메뉴를 선택하세요[1..5](0: 이전) ");
+      displayHeadline();
+
+      // 다른 인스턴스 메서드를 호출할 때 this에 보관된 인스턴스 주소를 사
       switch (menuNo) {
         case 0: return;
-        case 1: BoardHandler.processList(); break;
-        case 2: BoardHandler.processDetail(); break;
-        case 3: BoardHandler.processInput(); break;
-        case 4: BoardHandler.processDelite(); break;
-        case 5: BoardHandler.processUpdate(); break;
-        default: System.out.println("메뉴에 있는 번호를 입력하세요. ");
-      }  // 게시판 while
-    }
+        case 1: this.onList(); break; 
+        case 2: this.onDetail(); break;
+        case 3: this.onInput(); break;
+        case 4: this.onDelete(); break;
+        case 5: this.onUpdate(); break;
+        default: System.out.println("메뉴 번호가 옳지 않습니다!");
+      }
+
+      displayBlankLine();
+    } // 게시판 while
   }
 
-  static void displayHeadLine() {
-    System.out.println("-------------------------------------");
+  static void displayHeadline() {
+    System.out.println("=========================================");
   }
+
   static void displayBlankLine() {
-    System.out.println(); // 메뉴 처리 후 빈줄 출력 
+    System.out.println(); // 메뉴를 처리한 후 빈 줄 출력
   }
 
-  static void processList() {
-    java.text.SimpleDateFormat formatter = 
-        new java.text.SimpleDateFormat("yyyy-MM-dd");
+  void onList() {
+    // 날짜 정보에서 값을 추출하여 특정 포맷의 문자열로 만들어줄 도구를 준비
+    SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 
-    System.out.println("[게시글 목록]");
+    System.out.printf("[%s 목록]\n", this.title);
     System.out.println("번호 제목 조회수 작성자 등록일");
 
-    for (int i = 0; i < boardCount; i++) {
-      Board board = boards[i];
-      java.util.Date date = new java.util.Date(board.createdDate);
-      String dateStr = formatter.format(date);
-      System.out.printf("%d\t%s\t%d\t%s\t%s\n", 
+    // boardList 인스턴스에 들어있는 데이터 목록을 가져온다.
+    Board[] list = this.boardList.toArray();
+
+    for (Board board : list) {
+
+      Date date = new Date(board.createdDate);
+
+      // 날짜 정보 ==> "yyyy-MM-dd" 형식의 문자열
+      String dateStr = formatter.format(date); 
+
+      System.out.printf("%d\t%s\t%d\t%s\t%s\n",
           board.no, board.title, board.viewCount, board.writer, dateStr);
     }
 
   }
 
-  static void processDetail() {
-    System.out.println("[게시글 상세보기]");
+  void onDetail() {
+    System.out.printf("[%s 상세보기]\n", this.title);
 
     int boardNo = Prompt.inputInt("조회할 게시글 번호? ");
 
-    Board board = null;
-    for (int i = 0; i < boardCount; i++) {
-      if (boards[i].no == boardNo) {
-        board = boards[i];
-        break;
-      }
-    }
+    Board board = this.boardList.get(boardNo);
 
     if (board == null) {
-      System.out.println("해당 번호의 게시글이 없습니다!");
+      System.out.printf("해당 번호의 %s이 없습니다!\n", this.title);
       return;
     }
+
     System.out.printf("번호: %d\n", board.no);
     System.out.printf("제목: %s\n", board.title);
     System.out.printf("내용: %s\n", board.content);
     System.out.printf("조회수: %d\n", board.viewCount);
     System.out.printf("작성자: %s\n", board.writer);
-    java.util.Date date= new java.util.Date(board.createdDate);
-    System.out.printf("작성일: %1$tY-%1$tm-%1$td %1$tH:%1$tM\n", date);
+    Date date = new Date(board.createdDate);
+    System.out.printf("등록일: %tY-%1$tm-%1$td %1$tH:%1$tM\n", date);
 
   }
 
-  static void processInput() {
-    System.out.println("[게시글 등록]");
+  void onInput() {
+    System.out.printf("[%s 등록]\n", this.title);
 
-    if (boardCount == SIZE) {
-      System.out.println();
-      System.out.println("게시글을 더 이상 저장할 수 없습니다.");
-      return;
-    }
     Board board = new Board();
+
     board.title = Prompt.inputString("제목? ");
     board.content = Prompt.inputString("내용? ");
     board.writer = Prompt.inputString("작성자? ");
     board.password = Prompt.inputString("암호? ");
-
-    board.no = boardCount == 0 ? 1 : boards[boardCount - 1] .no + 1; 
-
     board.viewCount = 0;
     board.createdDate = System.currentTimeMillis();
 
-    // 새로만든 인스턴스 주소를 레퍼런스 배열에 저장한다.
-    boards[boardCount] = board;
+    this.boardList.add(board);
 
-    boardCount++;
+    System.out.printf("%s을 등록했습니다.\n", this.title);
   }
 
-  static void processDelite() {
-    System.out.println("[게시글 삭제]");
+  void onDelete() {
+    System.out.printf("[%s 삭제]\n", this.title);
+
     int boardNo = Prompt.inputInt("삭제할 게시글 번호? ");
-    int boardIndex = -1;
-    for (int i = 0; i < boardCount; i++) {
-      if (boards[i].no == boardNo) {
-        boardIndex = i;
-        break;
-      }
+
+    if (this.boardList.remove(boardNo)) {
+      System.out.println("삭제하였습니다.");
+    } else {
+      System.out.printf("해당 번호의 %s이 없습니다!\n", this.title);
     }
-    if (boardIndex == -1) {
-      System.out.println("해당 번호의 게시글이 없습니다!");
-      return;
-    }
-    for ( int i = boardIndex + 1; i < boardCount; i++) {
-      boards[i - 1] = boards[i];
-    } 
-    boards[--boardCount] = null;
-    System.out.println("삭제하였습니다.");
+
   }
 
-  public static void processUpdate() {
-    System.out.println("[게시글 변경]");
+  void onUpdate() {
+    System.out.printf("[%s 변경]\n", this.title);
+
     int boardNo = Prompt.inputInt("변경할 게시글 번호? ");
-    int boardIndex = -1;
-    for (int i = 0; i < boardCount; i++) {
-      if (boards[i].no == boardNo) {
-        boardIndex = i;
-        break;
-      }
-    }
-    if (boardIndex == -1) {
-      System.out.println("해당 번호의 게시글이 없습니다!");
+
+    Board board = this.boardList.get(boardNo);
+
+    if (board == null) {
+      System.out.printf("해당 번호의 %s이 없습니다!\n", this.title);
       return;
     }
-    Board board = new Board();
-    Board updateBoard = boards[boardIndex];
-    board.title = Prompt.inputString("제목? (" + updateBoard.title + ")");
-    board.content = Prompt.inputString("내용? (" + updateBoard.content + ")");
 
-    while (true) {
-      char str = Prompt.inputChar("변경하시겠습니까? (y/n)");
-      if (str == 'y') {
-        updateBoard.title = board.title;
-        updateBoard.content = board.content;
-        System.out.println("변경하였습니다.");
-        break;
-      } else if (str == 'n') {
-        System.out.println("취소하였습니다.");
-        break;
-      } else {
-        System.out.println("잘못입력하였습니다.");
-      }
+    String newTitle = Prompt.inputString("제목?(" + board.title + ") ");
+    String newContent = Prompt.inputString(String.format("내용?(%s) ", board.content));
+
+    String input = Prompt.inputString("변경하시겠습니까?(y/n) ");
+    if (input.equals("y")) {
+      board.title = newTitle;
+      board.content = newContent;
+      System.out.println("변경했습니다.");
+    } else {
+      System.out.println("변경 취소했습니다.");
     }
   }
-
 }
+
+
+
+

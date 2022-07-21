@@ -1,4 +1,4 @@
-package com.min.myboard;
+package com.min.quiz;
 
 // 출처: codefights.com
 //
