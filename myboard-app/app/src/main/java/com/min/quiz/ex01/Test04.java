@@ -1,4 +1,4 @@
-package com.min.quiz;
+package com.min.quiz.ex01;
 
 // 출처: codefights.com
 //

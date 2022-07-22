@@ -1,30 +1,30 @@
 /*
  * 게시글 메뉴 처리 클래스
  */
-package com.bitcamp.board;
+package com.bitcamp.board.handler;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import com.bitcamp.board.dao.BoardList;
+import com.bitcamp.board.domain.Board;
+import com.bitcamp.util.Prompt;
 
 public class BoardHandler {
 
-  String title;
+  private String title; // 게시판의 제목
 
-  // 게시글 목록을 관리할 객체 준
-  BoardList boardList = new BoardList();
+  // 게시글 목록을 관리할 객체 준비
+  private BoardList boardList = new BoardList();
 
   public BoardHandler() {
     this.title = "게시판";
   }
 
-  //제목을 입력받느생성
-  BoardHandler(String title) {
+  public BoardHandler(String title) {
     this.title = title;
   }
 
-  void execute() {
-    // App 클래스에서 메서드를 호출 할 떄 BoardHandler의 인스턴스 주소를 줄 것이다.
-    // 그 주소는 this라는 내장 변수에 저장된다.
+  public void execute() {
     while (true) {
       System.out.printf("%s:\n", this.title);
       System.out.println("  1: 목록");
@@ -37,10 +37,10 @@ public class BoardHandler {
       int menuNo = Prompt.inputInt("메뉴를 선택하세요[1..5](0: 이전) ");
       displayHeadline();
 
-      // 다른 인스턴스 메서드를 호출할 때 this에 보관된 인스턴스 주소를 사
+      // 다른 인스턴스 메서드를 호출할 때 this에 보관된 인스턴스 주소를 사용한다. 
       switch (menuNo) {
         case 0: return;
-        case 1: this.onList(); break; 
+        case 1: this.onList(); break;
         case 2: this.onDetail(); break;
         case 3: this.onInput(); break;
         case 4: this.onDelete(); break;
@@ -52,46 +52,44 @@ public class BoardHandler {
     } // 게시판 while
   }
 
-  static void displayHeadline() {
+  private static void displayHeadline() {
     System.out.println("=========================================");
   }
 
-  static void displayBlankLine() {
+  private static void displayBlankLine() {
     System.out.println(); // 메뉴를 처리한 후 빈 줄 출력
   }
 
-  void onList() {
-    // 날짜 정보에서 값을 추출하여 특정 포맷의 문자열로 만들어줄 도구를 준비
+  private void onList() {
     SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 
     System.out.printf("[%s 목록]\n", this.title);
     System.out.println("번호 제목 조회수 작성자 등록일");
 
-    // boardList 인스턴스에 들어있는 데이터 목록을 가져온다.
-    Board[] list = this.boardList.toArray();
+    // boardList 인스턴스에 들어 있는 데이터 목록을 가져온다.
+    Object[] list = this.boardList.toArray();
 
-    for (Board board : list) {
-
+    for (Object obj : list) {
+      Board board = (Board) obj;
       Date date = new Date(board.createdDate);
-
-      // 날짜 정보 ==> "yyyy-MM-dd" 형식의 문자열
       String dateStr = formatter.format(date); 
-
       System.out.printf("%d\t%s\t%d\t%s\t%s\n",
           board.no, board.title, board.viewCount, board.writer, dateStr);
     }
 
   }
 
-  void onDetail() {
+  private void onDetail() {
     System.out.printf("[%s 상세보기]\n", this.title);
 
     int boardNo = Prompt.inputInt("조회할 게시글 번호? ");
 
+    // 해당 번호의 게시글이 몇 번 배열에 들어 있는지 알아내기
     Board board = this.boardList.get(boardNo);
 
+    // 사용자가 입력한 번호에 해당하는 게시글을 못 찾았다면
     if (board == null) {
-      System.out.printf("해당 번호의 %s이 없습니다!\n", this.title);
+      System.out.println("해당 번호의 게시글이 없습니다!");
       return;
     }
 
@@ -105,7 +103,7 @@ public class BoardHandler {
 
   }
 
-  void onInput() {
+  private void onInput() {
     System.out.printf("[%s 등록]\n", this.title);
 
     Board board = new Board();
@@ -119,23 +117,22 @@ public class BoardHandler {
 
     this.boardList.add(board);
 
-    System.out.printf("%s을 등록했습니다.\n", this.title);
+    System.out.println("게시글을 등록했습니다.");
   }
 
-  void onDelete() {
+  private void onDelete() {
     System.out.printf("[%s 삭제]\n", this.title);
 
     int boardNo = Prompt.inputInt("삭제할 게시글 번호? ");
 
-    if (this.boardList.remove(boardNo)) {
+    if (boardList.remove(boardNo)) {
       System.out.println("삭제하였습니다.");
     } else {
-      System.out.printf("해당 번호의 %s이 없습니다!\n", this.title);
+      System.out.println("해당 번호의 게시글이 없습니다!");
     }
-
   }
 
-  void onUpdate() {
+  private void onUpdate() {
     System.out.printf("[%s 변경]\n", this.title);
 
     int boardNo = Prompt.inputInt("변경할 게시글 번호? ");
@@ -143,7 +140,7 @@ public class BoardHandler {
     Board board = this.boardList.get(boardNo);
 
     if (board == null) {
-      System.out.printf("해당 번호의 %s이 없습니다!\n", this.title);
+      System.out.println("해당 번호의 게시글이 없습니다!");
       return;
     }
 

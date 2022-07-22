@@ -1,4 +1,4 @@
-package com.min.quiz;
+package com.eomcs.quiz.ex02.sol;
 
 // 출처: codefights.com
 //
@@ -8,9 +8,9 @@ package com.min.quiz;
 // [2, 4, 5, 6, 4, 3, 7, 8] => [4, 3, 7, 8, 2, 4, 5, 6]
 //
 // [시간 복잡도]
-// - ?
+// - O(n) : n은 배열의 개수이다.
 //
-public class Test06 {
+public class Test02 {
 
   public static void main(String[] args) {
     int[] values = {2, 4, 5, 6, 4, 3, 7, 8};
@@ -28,19 +28,11 @@ public class Test06 {
   }
 
   static void changeValuePosition(int[] values) {
-    for (int i = 0; i < values.length; i++) {
-      int[] result = new int[values.length/2];
-      if (values[i] < values[values.length/2]) {
-        result[i] = values[i];
-        values[i] = values[values.length/2 + i];
-      } else {
-        values[i] = result[i - result.length]; 
-      }
+    int tmp;
+    for (int i = 0; i < values.length / 2; i++) {
+      tmp = values[i + values.length / 2];
+      values[i + values.length / 2] = values[i];
+      values[i] = tmp;
     }
   }
-
-
 }
-
-
-

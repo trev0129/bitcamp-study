@@ -1,4 +1,4 @@
-package com.min.quiz;
+package com.min.quiz.ex01;
 
 // [문제] 
 // 패리티(parity)를 구하라!

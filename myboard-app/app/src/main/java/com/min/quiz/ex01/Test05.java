@@ -1,4 +1,4 @@
-package com.eomcs.quiz.ex01;
+package com.min.quiz.ex01;
 
 // 출처: codefights.com
 //
@@ -10,7 +10,7 @@ package com.eomcs.quiz.ex01;
 // [시간 복잡도]
 // - ?
 //
-public class Test08 {
+public class Test05 {
 
   public static void main(String[] args) {
     System.out.println(countWaysToChangeDigit(10) == 17);
@@ -18,7 +18,11 @@ public class Test08 {
 
   static int countWaysToChangeDigit(int value) {
     int answer = 0;  
-    // 이 메서드를 완성하시오!
+    answer =  9 - (value%10);
+    answer =  answer + (9 - (value/10));
+    if (9 - (value/10) == 9) {
+      answer -= 1;
+    }
     return answer;
   }
 }

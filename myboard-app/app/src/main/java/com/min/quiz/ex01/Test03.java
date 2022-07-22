@@ -1,4 +1,4 @@
-package com.min.quiz;
+package com.min.quiz.ex01;
 
 // [문제] 
 // 두 위치의 비트 값을 맞교환 하라! 
