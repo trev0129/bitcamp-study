@@ -8,6 +8,10 @@ public class MemberList {
 
   private int no = 0;
 
+  private int nextNo() {
+    return ++no;
+  }
+
   public Member get(int memberNo) {
     for (int i = 0; i < this.memberCount; i++) {
       if (this.members[i].no == memberNo) {
@@ -56,9 +60,6 @@ public class MemberList {
     this.members = newArray;
   }
 
-  private int nextNo() {
-    return ++no;
-  }
 }
 
 

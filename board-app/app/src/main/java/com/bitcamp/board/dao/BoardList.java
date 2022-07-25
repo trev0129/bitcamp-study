@@ -8,6 +8,10 @@ public class BoardList extends ObjectList{
 
   private int no = 0;
 
+  private int nextNo() {
+    return ++no;
+  }
+
   // 슈퍼클래스의 get() 메서드는 인덱스로 항을찾는다.
   // 그래서 Board 객체를 다루기에 적합하지 않다.
   // 다음 메서드처럼 Board객체를 조회하는데 적합한 메서드를 추가한다.
@@ -22,7 +26,6 @@ public class BoardList extends ObjectList{
     for (int i = 0; i < this.length; i++) {
       // Object 배열에 실제 들어있는 것은 Board라고 컴파일러에게 알린다.
       Board board = (Board) this.list[i]; 
-
       if (board.no == boardNo) {
         return board;
       }
@@ -53,10 +56,6 @@ public class BoardList extends ObjectList{
       }
     }
     return super.remove(boardIndex); // 재정의 하기 전에 수퍼클래스의 메서드를 호출
-  }
-
-  private int nextNo() {
-    return ++no;
   }
 }
 

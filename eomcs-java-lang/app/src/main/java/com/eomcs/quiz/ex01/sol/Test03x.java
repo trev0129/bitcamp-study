@@ -14,7 +14,7 @@ package com.eomcs.quiz.ex01.sol;
 // [시간 복잡도]
 // - O(1) : 시간 복잡도는 입력 크기와 상관없다.
 //
-public class Test03 {
+public class Test03x {
 
   public static void main(String[] args) {
     int r = swapBits(0b00101100_01110001, 2, 13);
@@ -25,9 +25,17 @@ public class Test03 {
   }
 
   static int swapBits(int value, int i, int j) { 
-    if (((value >>> i) & 1) != ((value >>> j) & 1)) {
-      int bitMask = (1 << i) | (1 << j);
-      value ^= bitMask;  
+    // 해당 위치의 비트 값을 알아낸다.
+    int iBit = (value >>> i) & 1;
+    int jBit = (value >>> j) & 1;
+
+    // 두 비트의 값이 다를 경우에만 비트 맞교환을 수행한다.
+    if (iBit != jBit) {
+      // 두 비트의 값만 투과시킬 마스크를 만든다.
+      int iMask = 1 << i; // i 번째 비트가 1인 마스크
+      int jMask = 1 << j; // j 번째 비트가 1인 마스크
+      int bitMask = iMask | jMask; // i 번째와 j 번째가 1인 마스크
+      value = value ^ bitMask; // 두 비트를 맞교환하려는 값에 마스크를 XOR 한다.
     }
     return value;
   }

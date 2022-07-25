@@ -1,4 +1,4 @@
-package com.min.quiz.ex02;
+package com.eomcs.quiz.ex02;
 
 // 출처: codefights.com
 //
@@ -7,7 +7,7 @@ package com.min.quiz.ex02;
 // [2, 4, 1, 0] => 3
 // 
 // [시간 복잡도]
-// - O(n)
+// - ?
 public class Test01 {
 
   public static void main(String[] args) {
@@ -16,11 +16,8 @@ public class Test01 {
   }
 
   static int maxDiff(int[] values) {
-    int answer = 0;
-    for (int i = 0; i < values.length - 1; i++) {
-      int abs = Math.abs(values[i] - values[i + 1]);
-      answer = abs > answer ? abs : answer;
-    }
+    int answer = 1;
+    // 이 메서드를 완성하시오!
     return answer;
   }
 }

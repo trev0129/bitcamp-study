@@ -1,4 +1,4 @@
-package com.min.quiz.ex02;
+package com.eomcs.quiz.ex02;
 
 // 출처: codefights.com
 //
@@ -29,16 +29,5 @@ public class Test02 {
 
   static void changeValuePosition(int[] values) {
     // 이 메서드를 완성하시오!
-    int[] arr = new int[values.length];
-    for (int i = 0; i < values.length; i++) {
-      if ( i >= values.length/2) { 
-        arr[i] = values[i - (values.length/2)];
-      } else {
-        arr[i] = values[(values.length/2) + i];
-      }
-    }
-    for(int i = 0; i < arr.length; i++) {
-      values[i] = arr[i];
-    }
   }
 }
