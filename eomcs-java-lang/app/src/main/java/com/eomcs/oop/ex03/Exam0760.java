@@ -22,7 +22,6 @@ public class Exam0760 {
         System.out.println("인스턴스 블록...");
       }
     };
-
   }
 }
 

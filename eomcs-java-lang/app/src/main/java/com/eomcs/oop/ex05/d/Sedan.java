@@ -14,9 +14,10 @@ public class Sedan extends Car {
 
   public Sedan(String model, String maker, int capacity,
       boolean sunroof, boolean auto) {
-    this.model = model;
-    this.maker = maker;
-    this.capacity = capacity;
+    super(model, maker, capacity);
+    //    this.model = model;
+    //    this.maker = maker;
+    //    this.capacity = capacity;
     this.sunroof = sunroof;
     this.auto = auto;
   }

@@ -39,12 +39,23 @@ public class Test04 {
 
   public static void main(String[] args) {
     System.out.println(isGeometricProgression(new int[]{1,4,16}) == true);
+    System.out.println(isGeometricProgression(new int[]{2, 6, 18, 54, 162}) == true);
     System.out.println(isGeometricProgression(new int[]{2,4,8,17,34}) == false);
 
   }
 
   static boolean isGeometricProgression(int[] sequence) {
-    // 이 메서드를 완성하시오!
+    //    int geometric = sequence[1] / sequence[0];
+    //    for (int i = 0; i < sequence.length - 1; i++) {
+    //      if (sequence[i] * geometric != (sequence[i + 1])) {
+    //        return false;
+    //      } 
+    //    }
+    for (int i = 2; i < sequence.length; i++) {
+      if (sequence[0] * sequence[i] != sequence[1] * sequence[i - 1]) {
+        return false;
+      }
+    }
     return true;
   }
 }
