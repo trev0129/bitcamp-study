@@ -1,79 +1,70 @@
 package com.bitcamp.util;
 
 public class ObjectList {
+  private static final int DEFAULT_SIZE = 3;
 
-  private static final int DEFAULT_CAPACITY = 10;
-
-  private int size;
-  private Object[] elementData;
+  private int size; 
+  private Object[] elementData; 
 
   public ObjectList() {
-    elementData = new Object[DEFAULT_CAPACITY];
+    this.elementData = new Object[DEFAULT_SIZE];
   }
 
-  public ObjectList(int initialCapacity) {
-    elementData = new Object[initialCapacity];
+  public ObjectList(int initCapacity) {
+    this.elementData = new Object[initCapacity];
   }
 
   public void add(Object e) {
-    if (size == elementData.length) {
+    if (this.size == this.elementData.length) {
       grow();
     }
-
-    elementData[size++] = e;
+    this.elementData[this.size++] = e;
   }
 
   public Object[] toArray() {
-    Object[] arr = new Object[size];
+    Object[] arr = new Object[this.size];
     for (int i = 0; i < arr.length; i++) {
-      arr[i] = elementData[i];
+      arr[i] = this.elementData[i];
     }
     return arr;
   }
 
-  public Object get(int index) {
+  public Object get(int index) throws Throwable {
     if (index < 0 || index >= size) {
-      return null;
+      //인덱스가 무효하면 예외를 발시킨다.
+      //예외정보를 객체에 담아서 호출한 쪽으로 던진다.
+      //예외정보는 던질 수 있는 객체(java.lang.Throwable)에 담아야 한다.
+      //단, 메서드 선언부에 어떤 예외를 던지는 지 표시해야 한다.
+      throw new Throwable("인덱스가 무효함.");
     }
-
     return elementData[index];
   }
 
-  public boolean remove(int index) {
+  public boolean remove(int index) throws Throwable{
     if (index < 0 || index >= size) {
-      return false;
+      // 인덱스가 무효할 때 false를 리턴하는 대신
+      // 에외정보와 상황을 보고한다.
+      throw new Throwable("인덱스가 무효합니다.");
     }
-
-    // 삭제할 항목의 다음 항목을 앞으로 당긴다.
-    for (int i = index + 1; i < size; i++) {
-      elementData[i - 1] = elementData[i];
+    for (int i = index + 1; i < this.size; i++) {
+      this.elementData[i - 1] = this.elementData[i];
     }
-
-    // 목록의 개수를 한 개 줄인 후 
-    // 맨 뒤의 있던 항목의 주소를 0으로 설정한다.
-    elementData[--size] = null;
+    this.elementData[--this.size] = null;
 
     return true;
+  }
+
+  private void grow() {
+    int newSize = this.elementData.length + (this.elementData.length >> 1);
+    Object[] newArray = new Object[newSize];
+    for (int i = 0; i < this.elementData.length; i++) {
+      newArray[i] = this.elementData[i];
+    }
+    this.elementData = newArray;
   }
 
   public int size() {
     return size;
   }
 
-  private void grow() {
-    int newCapacity = elementData.length + (elementData.length >> 1);
-    Object[] newArray = new Object[newCapacity];
-    for (int i = 0; i < elementData.length; i++) {
-      newArray[i] = elementData[i];
-    }
-    elementData = newArray;
-  }
 }
-
-
-
-
-
-
-
-
