@@ -1,4 +1,4 @@
-// 예외 처리 전
+// 예외 처리 전 -1) 수동으로 자원해
 package com.eomcs.exception.ex5;
 
 import java.sql.Date;
@@ -7,23 +7,30 @@ import java.util.Scanner;
 public class Exam0110 {
 
   static Board read() {
-    try (Scanner keyScan = new Scanner(System.in)) {
-      Board board = new Board();
+    Scanner keyScan = new Scanner(System.in);
+    Board board = new Board();
 
-      System.out.print("번호> ");
-      board.setNo(Integer.parseInt(keyScan.nextLine()));
+    System.out.print("번호> ");
+    board.setNo(Integer.parseInt(keyScan.nextLine()));
 
-      System.out.print("제목> ");
-      board.setTitle(keyScan.nextLine());
+    System.out.print("제목> ");
+    board.setTitle(keyScan.nextLine());
 
-      System.out.print("내용> ");
-      board.setContent(keyScan.nextLine());
+    System.out.print("내용> ");
+    board.setContent(keyScan.nextLine());
 
-      System.out.print("등록일> ");
-      board.setCreatedDate(Date.valueOf(keyScan.nextLine()));
+    System.out.print("등록일> ");
+    board.setCreatedDate(Date.valueOf(keyScan.nextLine()));
 
-      return board;
-    } 
+    keyScan.close(); // 개발자가 직접 자원을 해제시킨다.
+    // 주의!
+    // close()를 호출 하기 전에 예외가 발생한다면, Scanner 자원이 채제되지 못한다.
+    // 해결책
+    // 정상적으로 실행되든 에외가발생하든 무조건 close()가실행되게 한다.
+    // finally {}에 자원 해제시키는코드를 담아라.
+
+    return board;
+
   }
 
   public static void main(String[] args) {

@@ -14,16 +14,13 @@ public class App {
 
     java.util.Scanner keyboardInput = new java.util.Scanner(System.in);
 
-    final int SIZE = 3;
-    int[] no = new int[SIZE];
-    String[] title = new String[SIZE];
-    String[] content = new String[SIZE];
-    String[] writer = new String[SIZE];
-    String[] password = new String[SIZE];
-    int[] viewCount = new int[SIZE];
-    long[] createdDate = new long[SIZE];
-
-    int boardCount = 0;
+    int no = 0;
+    String title = "";
+    String content = "";
+    String writer = "";
+    String password = "";
+    int viewCount = 0;
+    long createdDate = 0;
 
     while (true) {
       System.out.println("메뉴:");
@@ -42,42 +39,37 @@ public class App {
         System.out.println("[게시글 목록]");
         System.out.println("번호 제목 조회수 작성자 등록일");
 
-      
+        System.out.print(1);
+        System.out.print("\t");
+        System.out.print("제목입니다1");
+        System.out.print('\t');
+        System.out.print(20 + "\t");
+        System.out.print("홍길동\t");
+        System.out.print("2022-07-08\r\n");
+
+        System.out.print(2 + "\t" + "제목입니다2\t" +
+            11 + "\t" + "홍길동\t" + "2022-07-08\n");
+
+        System.out.println(3 + "\t제목입니다3\t" +
+            31 + "\t" + "임꺽정\t2022-07-08");
+
         System.out.printf("%d\t%s\t%d\t%s\t%s\n",
             4, "제목입니다4", 45, "유관순", "2022-07-08");
       } else if (menuNo == 2) {
         System.out.println("[게시글 상세보기]");
 
-        System.out.println("게시글 번호를 입력하세요.");
-
-        String input = keyboardInput.nextLine();
-        int boardNo = Integer.parseInt(input);
-
-        int boardIndex = -1;
-        for (int i = 0; i < boardCount; i++) {
-          if (no[i] == boardNo) {
-            boardIndex = i;
-            break;
-          }
-        }
-
-        if (boardIndex == -1) {
-          System.out.println("없는 번호입니다.");
-          continue;
-        }
-
-        System.out.printf("번호: %d\n", no[boardIndex]);
-        System.out.printf("제목: %s\n", title[boardIndex]);
-        System.out.printf("내용: %s\n", content[boardIndex]);
-        System.out.printf("조회수: %d\n", viewCount[boardIndex]);
-        System.out.printf("작성자: %s\n", writer[boardIndex]);
+        System.out.printf("번호: %d\n", no);
+        System.out.printf("제목: %s\n", title);
+        System.out.printf("내용: %s\n", content);
+        System.out.printf("조회수: %d\n", viewCount);
+        System.out.printf("작성자: %s\n", writer);
 
         // Date 도구함의 도구를 쓸 수 있도록 데이터를 준비시킨다.
         // new Date(밀리초)
         //   => 지정한 밀리초를 가지고 날짜 관련 도구를 사용할 수 있도록 설정한다.
         // Date date
         //   => createdDate 밀리초를 가지고 설정한 날짜 정보
-        java.util.Date date = new java.util.Date(createdDate[boardIndex]);
+        java.util.Date date = new java.util.Date(createdDate);
         
         // Date 도구함을 통해 설정한 날짜 정보를 가지고 printf()를 실행한다.
         // %Y : date에 설정된 날짜 정보에서 년도만 추출한다.
@@ -86,34 +78,21 @@ public class App {
       } else if (menuNo == 3) {
         System.out.println("[게시글 등록]");
 
-        if (boardCount == SIZE) {
-          System.out.println("더이상 글 못씀");
-        }
-        
         System.out.print("제목? ");
-        title[boardCount] = keyboardInput.nextLine();
+        title = keyboardInput.nextLine();
 
         System.out.print("내용? ");
-        content[boardCount] = keyboardInput.nextLine();
+        content = keyboardInput.nextLine();
 
         System.out.print("작성자? "); 
-        writer[boardCount] = keyboardInput.nextLine();
+        writer = keyboardInput.nextLine();
 
         System.out.print("암호? ");
-        password[boardCount] = keyboardInput.nextLine();
+        password = keyboardInput.nextLine();
 
-        no[boardCount] = boardCount == 0 ? 1 : no[boardCount - 1] + 1;
-        /*
-         * if (no[boardCount] == 0) {
-         *  no[boardCount] = 1;
-         * } else {
-         *  no[boardCount - 1] + 1;
-         * }
-         */
-        viewCount[boardCount] = 0;
-        createdDate[boardCount] = System.currentTimeMillis();
-
-        boardCount++;
+        no = 1;
+        viewCount = 0;
+        createdDate = System.currentTimeMillis();
 
       } else {
         System.out.println("메뉴 번호가 옳지 않습니다!");
