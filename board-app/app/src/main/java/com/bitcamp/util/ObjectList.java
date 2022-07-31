@@ -15,6 +15,7 @@ public class ObjectList {
     elementData = new Object[initialCapacity];
   }
 
+
   public void add(Object e) {
     if (size == elementData.length) {
       grow();
@@ -31,26 +32,34 @@ public class ObjectList {
     return arr;
   }
 
-  public Object get(int index) throws Throwable {
+  // 개발자가 예외 클래스 이름만 보고도 
+  // 어떤 작업을 하다가 예외가 발생됐는지 직관적으로알 수 있도록 
+  // 사용자 정의 예외를 던진다!
+  // => RuntimeException 메서드를 선언부에 표시할 필요가 없다.
+
+  /**
+   * 목록에서 인덱스에 해당하는 항목을 찾아 리턴한다.
+   * @param index 목록에 저장된 항목의 인데
+   * @return index에 저장된 항목
+   * @throws ListException 인덱스가 무효함
+   */
+  public Object get(int index) /* throws ListException */ { // 여기에 throws가 있으면 런타임 타입이아닌줄 알 수 있음 그래서 지
     if (index < 0 || index >= size) {
-      throw new Throwable("인덱스가 무효함!");
+      throw new ListException("인덱스가 무효함!");
     }
 
     return elementData[index];
   }
 
-  public boolean remove(int index) throws Throwable {
+  public boolean remove(int index) {
     if (index < 0 || index >= size) {
-      throw new Throwable("인덱스가 무효함!");
+      throw new ListException("인덱스가 무효함!");
     }
 
-    // 삭제할 항목의 다음 항목을 앞으로 당긴다.
     for (int i = index + 1; i < size; i++) {
       elementData[i - 1] = elementData[i];
     }
 
-    // 목록의 개수를 한 개 줄인 후 
-    // 맨 뒤의 있던 항목의 주소를 0으로 설정한다.
     elementData[--size] = null;
 
     return true;

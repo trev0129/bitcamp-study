@@ -50,7 +50,7 @@ public class BoardHandler {
         }
 
         displayBlankLine();
-      } catch (Throwable ex) {
+      } catch (Exception ex) {
         System.out.println("입력 값이 옳지 않습니다.");
       }
     } // 게시판 while
@@ -107,7 +107,7 @@ public class BoardHandler {
         System.out.printf("작성자: %s\n", board.writer);
         Date date = new Date(board.createdDate);
         System.out.printf("등록일: %tY-%1$tm-%1$td %1$tH:%1$tM\n", date);
-      } catch (Throwable ex) {
+      } catch (Exception ex) {
         System.out.printf("예외 상황!: %s\n", ex.getMessage());
       }
     }
@@ -143,7 +143,7 @@ public class BoardHandler {
         } else {
           System.out.println("해당 번호의 게시글이 없습니다!");
         }
-      } catch (Throwable ex) {
+      } catch (Exception ex) {
         System.out.printf("예외 상황!: %s\n", ex.getMessage());
       }
     }
@@ -175,7 +175,7 @@ public class BoardHandler {
         } else {
           System.out.println("변경 취소했습니다.");
         }
-      } catch (Throwable ex) {
+      } catch (Exception ex) {
         System.out.printf("예외 상황! %s\n", ex.getMessage());
       }
     }

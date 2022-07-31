@@ -78,7 +78,7 @@ public class MemberHandler {
       System.out.printf("이메일: %s\n", member.email);
       Date date = new Date(member.createdDate);
       System.out.printf("등록일: %tY-%1$tm-%1$td %1$tH:%1$tM\n", date);
-    } catch (Throwable ex) {
+    } catch (Exception ex) {
       System.out.printf("예외 상황!: %s \n", ex.getMessage());
     }
   }
@@ -109,7 +109,7 @@ public class MemberHandler {
       } else {
         System.out.println("해당 이메일의 회원이 없습니다!");
       }
-    } catch (Throwable ex) { 
+    } catch (Exception ex) { 
       System.out.printf("예외 상황!: %s\n", ex.getMessage());
     }
   }
@@ -138,7 +138,7 @@ public class MemberHandler {
       } else {
         System.out.println("변경 취소했습니다.");
       }
-    } catch (Throwable ex) {
+    } catch (Exception ex) {
       System.out.printf("예외 상황!: %s\n", ex.getMessage());
     }
   }
