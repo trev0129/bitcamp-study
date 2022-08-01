@@ -35,7 +35,7 @@ public class App {
       System.out.println("  6: 회원");
       System.out.println();
 
-      try {
+      try { 
         int mainMenuNo = Prompt.inputInt("메뉴를 선택하세요[1..6](0: 종료) ");
 
         switch (mainMenuNo) {

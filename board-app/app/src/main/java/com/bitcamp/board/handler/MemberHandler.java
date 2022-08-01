@@ -4,13 +4,13 @@
 package com.bitcamp.board.handler;
 
 import java.util.Date;
-import com.bitcamp.board.dao.MemberList;
+import com.bitcamp.board.dao.MemberDao;
 import com.bitcamp.board.domain.Member;
 import com.bitcamp.util.Prompt;
 
 public class MemberHandler {
 
-  private MemberList memberList = new MemberList();
+  private MemberDao memberDao = new MemberDao();
 
   public void execute() {
     while (true) {
@@ -22,20 +22,25 @@ public class MemberHandler {
       System.out.println("  5: 변경");
       System.out.println();
 
-      int menuNo = Prompt.inputInt("메뉴를 선택하세요[1..5](0: 이전) ");
-      displayHeadline();
+      try {
+        int menuNo = Prompt.inputInt("메뉴를 선택하세요[1..5](0: 이전) ");
+        displayHeadline();
 
-      switch (menuNo) {
-        case 0: return;
-        case 1: this.onList(); break;
-        case 2: this.onDetail(); break;
-        case 3: this.onInput(); break;
-        case 4: this.onDelete(); break;
-        case 5: this.onUpdate(); break;
-        default: System.out.println("메뉴 번호가 옳지 않습니다!");
+        switch (menuNo) {
+          case 0: return;
+          case 1: this.onList(); break;
+          case 2: this.onDetail(); break;
+          case 3: this.onInput(); break;
+          case 4: this.onDelete(); break;
+          case 5: this.onUpdate(); break;
+          default: System.out.println("메뉴 번호가 옳지 않습니다!");
+        }
+
+        displayBlankLine();
+
+      } catch (Exception ex) {
+        System.out.printf("예외 발생: %s\n", ex.getMessage());
       }
-
-      displayBlankLine();
     } // 게시판 while
   }
 
@@ -51,10 +56,10 @@ public class MemberHandler {
     System.out.println("[회원 목록]");
     System.out.println("이메일 이름");
 
-    Object[] list = this.memberList.toArray();
+    Member[] members = this.memberDao.findAll();
 
-    for (Object item : list) {
-      Member member = (Member) item;
+    for (Member item : members) {
+      Member member = item;
       System.out.printf("%s\t%s\n",
           member.email, member.name);
     }
@@ -62,25 +67,21 @@ public class MemberHandler {
   }
 
   private void onDetail() {
-    try {
-      System.out.println("[회원 상세보기]");
+    System.out.println("[회원 상세보기]");
 
-      String email = Prompt.inputString("조회할 회원 이메일? ");
+    String email = Prompt.inputString("조회할 회원 이메일? ");
 
-      Member member = this.memberList.get(email);
+    Member member = this.memberDao.findByEmail(email);
 
-      if (member == null) {
-        System.out.println("해당 이메일의 회원이 없습니다!");
-        return;
-      }
-
-      System.out.printf("이름: %s\n", member.name);
-      System.out.printf("이메일: %s\n", member.email);
-      Date date = new Date(member.createdDate);
-      System.out.printf("등록일: %tY-%1$tm-%1$td %1$tH:%1$tM\n", date);
-    } catch (Exception ex) {
-      System.out.printf("예외 상황!: %s \n", ex.getMessage());
+    if (member == null) {
+      System.out.println("해당 이메일의 회원이 없습니다!");
+      return;
     }
+
+    System.out.printf("이름: %s\n", member.name);
+    System.out.printf("이메일: %s\n", member.email);
+    Date date = new Date(member.createdDate);
+    System.out.printf("등록일: %tY-%1$tm-%1$td %1$tH:%1$tM\n", date);
   }
 
   private void onInput() {
@@ -93,53 +94,45 @@ public class MemberHandler {
     member.password = Prompt.inputString("암호? ");
     member.createdDate = System.currentTimeMillis();
 
-    this.memberList.add(member);
+    this.memberDao.insert(member);
 
     System.out.println("회워을 등록했습니다.");
   }
 
   private void onDelete() {
-    try {
-      System.out.println("[회원 삭제]");
+    System.out.println("[회원 삭제]");
 
-      String email = Prompt.inputString("삭제할 회원 이메일? ");
+    String email = Prompt.inputString("삭제할 회원 이메일? ");
 
-      if (memberList.remove(email)) {
-        System.out.println("삭제하였습니다.");
-      } else {
-        System.out.println("해당 이메일의 회원이 없습니다!");
-      }
-    } catch (Exception ex) { 
-      System.out.printf("예외 상황!: %s\n", ex.getMessage());
+    if (memberDao.delete(email)) {
+      System.out.println("삭제하였습니다.");
+    } else {
+      System.out.println("해당 이메일의 회원이 없습니다!");
     }
   }
 
   private void onUpdate() {
-    try {
-      System.out.println("[회원 변경]");
+    System.out.println("[회원 변경]");
 
-      String email = Prompt.inputString("변경할 회원 이메일? ");
+    String email = Prompt.inputString("변경할 회원 이메일? ");
 
-      Member member = this.memberList.get(email);
+    Member member = this.memberDao.findByEmail(email);
 
-      if (member == null) {
-        System.out.println("해당 이메일의 회원이 없습니다!");
-        return;
-      }
+    if (member == null) {
+      System.out.println("해당 이메일의 회원이 없습니다!");
+      return;
+    }
 
-      String newName = Prompt.inputString("이름?(" + member.name + ") ");
-      String newEmail = Prompt.inputString(String.format("이메일?(%s) ", member.email));
+    String newName = Prompt.inputString("이름?(" + member.name + ") ");
+    String newEmail = Prompt.inputString(String.format("이메일?(%s) ", member.email));
 
-      String input = Prompt.inputString("변경하시겠습니까?(y/n) ");
-      if (input.equals("y")) {
-        member.name = newName;
-        member.email = newEmail;
-        System.out.println("변경했습니다.");
-      } else {
-        System.out.println("변경 취소했습니다.");
-      }
-    } catch (Exception ex) {
-      System.out.printf("예외 상황!: %s\n", ex.getMessage());
+    String input = Prompt.inputString("변경하시겠습니까?(y/n) ");
+    if (input.equals("y")) {
+      member.name = newName;
+      member.email = newEmail;
+      System.out.println("변경했습니다.");
+    } else {
+      System.out.println("변경 취소했습니다.");
     }
   }
 }

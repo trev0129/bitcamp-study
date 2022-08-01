@@ -15,11 +15,7 @@ public class Prompt {
   public static int inputInt(String title) {
     System.out.print(title);
     String str = keyboardInput.nextLine();
-    try {
-      return Integer.parseInt(str); 
-    } catch (Throwable ex) {
-      return -12121212;
-    }
+    return Integer.parseInt(str);
   }
 
   public static String inputString() {
