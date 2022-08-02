@@ -58,8 +58,7 @@ public class MemberHandler {
 
     Member[] members = this.memberDao.findAll();
 
-    for (Member item : members) {
-      Member member = item;
+    for (Member member : members) {
       System.out.printf("%s\t%s\n",
           member.email, member.name);
     }
