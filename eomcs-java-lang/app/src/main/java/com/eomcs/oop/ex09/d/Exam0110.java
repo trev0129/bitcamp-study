@@ -25,5 +25,6 @@ public class Exam0110 {
 
     @Override
     public void rule4() {}
+
   }
 }
