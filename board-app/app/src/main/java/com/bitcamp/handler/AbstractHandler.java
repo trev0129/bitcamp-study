@@ -3,7 +3,7 @@ package com.bitcamp.handler;
 import com.bitcamp.board.App;
 import com.bitcamp.util.Prompt;
 
-public abstract class AbstractHandler implements Handler{
+public abstract class AbstractHandler implements Handler {
 
   String[] menus;
 
@@ -11,7 +11,7 @@ public abstract class AbstractHandler implements Handler{
     this.menus = menus;
   }
 
-  protected void printMenus(String[] menus) {
+  protected void printMenus() {
     for (int i = 0; i < menus.length; i++) {
       System.out.printf("  %d: %s\n", i + 1, menus[i]);
     }
@@ -31,10 +31,9 @@ public abstract class AbstractHandler implements Handler{
 
   @Override
   public void execute() {
-
     while (true) {
       printTitle();
-      printMenus(menus);
+      printMenus();
       printBlankLine();
 
       try {
@@ -48,13 +47,11 @@ public abstract class AbstractHandler implements Handler{
           return; // 메인 메뉴로 돌아간다.
         }
 
-        // 메뉴에 진입할 때 breadcrumb 메뉴바에 그 메뉴를 등록한다.
         App.breadcrumbMenu.push(menus[menuNo - 1]);
 
         printHeadline();
 
-        // 서브 메뉴의 제목을 출력한다.
-        System.out.printf("%s:\n", App.breadcrumbMenu);
+        printTitle();
 
         service(menuNo);
 
@@ -68,6 +65,6 @@ public abstract class AbstractHandler implements Handler{
     } // while
   }
 
-  protected abstract void service(int menuNo);
+  public abstract void service(int menuNo);
 
 }
