@@ -37,8 +37,7 @@ public class Test09 {
 
   static int arithmeticProgression(int element1, int element2, int n) {
     // 이 메서드를 완성하시오!
-    int result = element1 + (element2 - element1) * (n - 1);
-    return result; 
+    return 0; 
   }
 }
 

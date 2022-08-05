@@ -29,14 +29,17 @@ public class Test11 {
   static int differentSymbolsNaive(String s) {
     int result = 0;
     // 이 메서드를 완성하시오!
-    char[] c = s.toCharArray();
-    for (int i = 0; i < c.length; i++) {
-      for (int j = 0; j < i; j++) {
-        if (c[i] == c[j]) {
-          result++;
-        }
-      }
-    }
-    return result = c.length - result;
+    return result;
   }
 }
+
+
+
+
+
+
+
+
+
+
+

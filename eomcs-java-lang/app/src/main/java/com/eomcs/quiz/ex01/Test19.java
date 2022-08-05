@@ -32,6 +32,12 @@ public class Test19 {
 
   static int myMaxOfThree(int a, int b, int c) {
     // 이 메서드를 완성하시오!
-    return a;
+    return c;
   }
 }
+
+
+
+
+
+

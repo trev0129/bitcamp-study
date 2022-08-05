@@ -32,8 +32,6 @@ public class Exam0640 {
         C obj3 = new C(); // OK
         ) {
       System.out.println("try 블록 실행...");
-    } finally {
-      System.out.println("finally");
     }
     // finally 블록에서 C의 close()를 호출하지 않아도,
     // 자동으로 호출될 것이다. 

@@ -13,14 +13,8 @@ public class MemberHandler extends AbstractHandler {
 
   private MemberDao memberDao = new MemberDao();
 
-
   public MemberHandler() {
     super(new String[] {"목록", "상세보기", "등록", "삭제", "변경"});
-  }
-  static void printMenus(String[] menus) {
-    for (int i = 0; i < menus.length; i++) {
-      System.out.printf("  %d: %s\n", i + 1, menus[i]);
-    }
   }
 
   @Override

@@ -44,7 +44,6 @@ public class Test10 {
 
   static int circleOfNumbers(int n, int firstNumber) {
     // 이 메서드를 완성하시오!
-
-    return (n - (n >>> 1)) + firstNumber;
+    return 0;
   }
 }

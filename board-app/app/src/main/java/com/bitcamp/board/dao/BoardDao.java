@@ -1,16 +1,13 @@
 package com.bitcamp.board.dao;
 
-import java.util.LinkedList;
-import java.util.List;
 import com.bitcamp.board.domain.Board;
+import com.bitcamp.util.LinkedList;
+import com.bitcamp.util.List;
 
 // 게시글 목록을 관리하는 역할
 //
 public class BoardDao {
 
-  // List 인터페이스의 레퍼런스인 list 변수는
-  // List 규격에 따라 만든 객체 주소를 담을 수 있다.
-  //
   List<Board> list = new LinkedList<>();
 
   private int boardNo = 0;
@@ -41,7 +38,13 @@ public class BoardDao {
   }
 
   public Board[] findAll() {
-    return list.toArray(new Board[0]);
+    // 역순으로 정렬하여 리턴한다.
+    Board[] arr = list.toArray(new Board[0]);
+    Board[] arr2 = new Board[arr.length];
+    for (int i = 0; i < arr2.length; i++) {
+      arr2[i] = arr[arr.length - i - 1];
+    }
+    return arr2;
   }
 
   private int nextNo() {

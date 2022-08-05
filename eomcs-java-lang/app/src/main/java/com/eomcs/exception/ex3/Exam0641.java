@@ -29,8 +29,6 @@ public class Exam0641 {
     } catch (Exception e) {
       // close()가 호출된 후 catch 블록이 실행된다.
       System.out.println("예외 발생!: " + e.getMessage());
-    } finally {
-      System.out.println("finally");
     }
   }
 }

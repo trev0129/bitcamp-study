@@ -57,13 +57,6 @@ public class Test12 {
 
   static boolean isInsideTheCircle(int xa, int ya, int xc, int yc, int rc) {
     // 이 메서드를 완성하시오!
-    int x = (xc - xa), y = (yc - ya);
-    x *= x;
-    y *= y;
-    rc *= rc;
-    if (rc > x + y) {
-      return true;
-    }
     return false;
   }
 }

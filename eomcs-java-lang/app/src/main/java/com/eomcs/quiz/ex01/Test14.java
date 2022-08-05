@@ -32,11 +32,9 @@ public class Test14 {
 
   static int numberReverse(int input) {
     int reversed = 0;
-    while (input != 0) {
-      reversed *= 10;
-      reversed += (input % 10);
-      input /= 10;
-    }
+    // 이 메서드를 완성하시오!
     return reversed;
   }
 }
+
+

@@ -31,10 +31,14 @@ public class Test17 {
   }
 
   static int nearestRoundNumber(int value) {
-    //    return value = ((value / 10) * 10) + 10;
-    while (value % 10 != 0 ) {
-      value++;
-    }
+    // 이 메서드를 완성하시오!
     return value;
   }
 }
+
+
+
+
+
+
+

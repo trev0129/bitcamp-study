@@ -36,11 +36,11 @@ public class Test13 {
 
   static int sumOfMultiples(int n, int k) {
     int result = 0;
-    int i = 0;
-    while (n > i) {
-      result += i;
-      i += k;
-    }
+    // 이 메서드를 완성하시오!
     return result;
   }
 }
+
+
+
+

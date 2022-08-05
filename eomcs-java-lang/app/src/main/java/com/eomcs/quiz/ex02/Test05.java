@@ -44,13 +44,7 @@ public class Test05 {
 
   static int maxFraction(int[] numerators, int[] denominators) {
     int maxFractionIndex = 0;
-    double cnt = 0;
-    for (int i = 0; i < numerators.length; i++) {
-      if (cnt < (double)numerators[i] / denominators[i]) {
-        cnt = (double)numerators[i] / denominators[i];
-        maxFractionIndex = i;
-      }
-    }
+    // 이 메서드를 완성하시오!
     return maxFractionIndex;
   }
 }

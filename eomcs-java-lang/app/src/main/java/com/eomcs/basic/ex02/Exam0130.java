@@ -5,31 +5,34 @@ public class Exam0130 {
 
   static class Member {
     String name;
-    int age; 
+    int age;
 
-    public Member(String s, int a) {
-      name = s;
+    public Member(String n, int a) {
+      name = n;
       age = a;
     }
   }
+
   public static void main(String[] args) {
 
     Member m1 = new Member("aaa", 20);
     Member m2 = new Member("aaa", 20);
 
-    // 인스턴스가 다르면 
+    // 인스턴스가 다르다.
     System.out.println(m1 == m2);
 
-    System.out.println(m1.hashCode() == m2.hashCode()); // 
+    // Object의 hashCode()는 인스턴스 마다 다르다.
+    System.out.println(m1.hashCode() == m2.hashCode());
 
-    System.out.println("---------------------");
+    System.out.println("------------------------------");
 
     String s1 = new String("Hello");
     String s2 = new String("Hello");
 
-    // Object의 hashCode()는 인스턴스 마다 다르다.
+    // 두 String 의 인스턴스가 다르다.
     System.out.println(s1 == s2);
 
+    // String의 hashCode()?
     System.out.println(s1.hashCode() == s2.hashCode()); // true
     //
     // 그러나, String의 hashCode()은
@@ -40,10 +43,8 @@ public class Exam0130 {
     // - HashMap이나 Hashtable에서는 Key를 다룰 때 이 메서드의 리턴 값을 사용한다.
     // - 보통 hashCode()와 equals()를 함께 오버라이딩 한다.
 
-    // String 클래스는 toString()도 오버라이딩 헀다.
+    // String 클래스는 toString()도 오버라이딩 했다.
     System.out.println(s1.toString());
-
-
   }
 }
 
