@@ -1,4 +1,4 @@
-package com.eomcs.design_pattern.iterator.before;
+package com.eomcs.design_pattern.iterator.after4;
 
 public class LinkedList<E> {
 
@@ -172,8 +172,24 @@ public class LinkedList<E> {
     }
   }
 
+  // Iterator 구현체를 제공한다.
   public Iterator<E> iterator() {
-    return new LinkedListIterator<E>(this);
+    class LinkedListIterator<T> implements Iterator<T> {
+
+      int index = 0;
+
+      @Override
+      public boolean hasNext() {
+        return index < LinkedList.this.size();
+      }
+
+      @SuppressWarnings("unchecked")
+      @Override
+      public T next() {
+        return (T) LinkedList.this.get(index++);
+      }
+    }
+    return new LinkedListIterator<E>();
   }
 
 }

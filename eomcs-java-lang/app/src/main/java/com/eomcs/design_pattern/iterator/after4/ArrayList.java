@@ -1,4 +1,4 @@
-package com.eomcs.design_pattern.iterator.after1;
+package com.eomcs.design_pattern.iterator.after4;
 
 public class ArrayList<E> {
 
@@ -98,23 +98,24 @@ public class ArrayList<E> {
 
   // Iterator 구현체를 제공한다.
   public Iterator<E> iterator() {
+    class ArrayListIterator<T> implements Iterator<T> {
 
-    return new Iterator<E>() {
       int index = 0;
-
 
       @Override
       public boolean hasNext() {
         return index < ArrayList.this.size();
       }
 
+      @SuppressWarnings("unchecked")
       @Override
-      public E next() {
-        return ArrayList.this.get(index++);
+      public T next() {
+        return (T) ArrayList.this.get(index++);
       }
-    };
-  }
+    }
+    return new ArrayListIterator<E>(/*this*/);
 
+  }
 }
 
 

@@ -95,6 +95,11 @@ public class ArrayList<E> {
     }
     arr = temp;
   }
+
+  public Iterator<E> iterator () {
+    return new ArrayListIterator<E>(this);
+  }
+
 }
 
 

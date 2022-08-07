@@ -35,38 +35,43 @@ public class Test01 {
     list5.add("ccc5");
     list5.add("ddd5");
 
-    // 목록에서 값 꺼내기
-    // 1) ArrayList 에서 값 꺼내기
-    for (int i = 0; i < list1.size(); i++) {
-      System.out.println(list1.get(i));
+
+
+
+
+    Iterator<String> iterator1 = list1.iterator();
+    while (iterator1.hasNext()) {
+      System.out.println(iterator1.next());
     }
     System.out.println("-------------------------");
 
-    // 2) LinkedList 에서 값 꺼내기
-    for (int i = 0; i < list2.size(); i++) {
-      System.out.println(list2.get(i));
+    Iterator<String> iterator2 = list2.iterator();
+    while (iterator2.hasNext()) {
+      System.out.println(iterator2.next());
     }
     System.out.println("-------------------------");
 
-    // 3) Stack 에서 값 꺼내기
-    while (!list3.empty()) {
-      System.out.println(list3.pop());
+    Iterator<String> iterator3 = list3.iterator();
+    while (iterator3.hasNext()) {
+      System.out.println(iterator3.next());
     }
     System.out.println("-------------------------");
 
-    // 4) Queue 에서 값 꺼내기
-    while (!list4.empty()) {
-      System.out.println(list4.poll());
+    Iterator<String> iterator4 = list4.iterator();
+    while (iterator4.hasNext()) {
+      System.out.println(iterator4.next());
     }
     System.out.println("-------------------------");
 
-    // 5) HashSet 에서 값 꺼내기
-    // => 해시셋은 입력 된 순서가 아니라 해시값의 오름차순으로 꺼낸다.
-    String[] arr = list5.toArray(new String[0]);
-    for (String s : arr) {
-      System.out.println(s);
+    java.util.Iterator<String> iterator5 = list5.iterator();
+    while (iterator5.hasNext()) {
+      System.out.println(iterator5.next());
     }
-    System.out.println("-------------------------");
+
+
+
+
+
 
     // 문제점
     // - 자료 구조에 따라 데이터를 꺼내는 방식이 다르다!

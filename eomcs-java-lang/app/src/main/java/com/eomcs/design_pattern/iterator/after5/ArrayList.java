@@ -1,4 +1,4 @@
-package com.eomcs.design_pattern.iterator.after1;
+package com.eomcs.design_pattern.iterator.after5;
 
 public class ArrayList<E> {
 
@@ -98,10 +98,15 @@ public class ArrayList<E> {
 
   // Iterator 구현체를 제공한다.
   public Iterator<E> iterator() {
+    // anonymous class
+    // 인스턴스를 한 개만 생성하는 클래스를 만들 경우 사용하는 문법이다.
+    // 문법
+    //      인터페이스명 레퍼런스 = new 인터페이스명(또는 클래스명)() {
+    //              인터페이스에 선언된 메서드 구
+    //          }
 
-    return new Iterator<E>() {
+    Iterator<E> iterator = new Iterator<>() {
       int index = 0;
-
 
       @Override
       public boolean hasNext() {
@@ -113,10 +118,11 @@ public class ArrayList<E> {
         return ArrayList.this.get(index++);
       }
     };
+
+    return iterator;
+
   }
-
 }
-
 
 
 
