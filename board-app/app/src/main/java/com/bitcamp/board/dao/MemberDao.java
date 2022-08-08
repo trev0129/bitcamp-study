@@ -1,14 +1,20 @@
 package com.bitcamp.board.dao;
 
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
 import com.bitcamp.board.domain.Member;
-import com.bitcamp.util.LinkedList;
-import com.bitcamp.util.List;
 
 // 회원 목록을 관리하는 역할
 //
 public class MemberDao {
 
   List<Member> list = new LinkedList<Member>();
+  String filename;
+
+  public MemberDao(String filename) {
+    this.filename = filename;
+  }
 
   public void insert(Member member) {
     list.add(member);
@@ -35,7 +41,15 @@ public class MemberDao {
   }
 
   public Member[] findAll() {
-    return list.toArray(new Member[0]);
+    Iterator<Member> iterator = list.iterator();
+
+    Member[] arr = new Member[list.size()];
+
+    int i = 0;
+    while (iterator.hasNext()) {
+      arr[i++] = iterator.next(); 
+    }
+    return arr;
   }
 }
 
