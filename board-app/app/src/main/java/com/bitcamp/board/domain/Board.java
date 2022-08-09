@@ -13,8 +13,8 @@ public class Board {
   @Override
   public String toString() {
     return "Board [no=" + no + ", title=" + title + ", content=" + content + ", writer=" + writer
-        + ", password=" + password + ", viewCount=" + viewCount + ", createdDate=" + createdDate
+        + ", password=" + password + ", viewCount=" + viewCount 
+        + ", createdDate=" + new java.sql.Date(createdDate) 
         + "]";
   }
-
 }
