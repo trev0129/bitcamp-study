@@ -40,7 +40,6 @@ public abstract class AbstractHandler implements Handler {
     for (String title : App.breadcrumbMenu) {
       if (!builder.isEmpty()) {
         builder.append(" > ");
-
       }
       builder.append(title);
     }

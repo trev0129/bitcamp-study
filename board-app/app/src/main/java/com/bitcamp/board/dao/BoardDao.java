@@ -2,12 +2,12 @@ package com.bitcamp.board.dao;
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import com.bitcamp.board.domain.Board;
-import com.bitcamp.util.DataInputStream;
-import com.bitcamp.util.DataOutputStream;
 
 // 게시글 목록을 관리하는 역할
 //
@@ -22,18 +22,11 @@ public class BoardDao {
   }
 
   public void load() throws Exception {
-    try (DataInputStream in = new DataInputStream(new FileInputStream(filename))) {
+    try (ObjectInputStream in = new ObjectInputStream(new FileInputStream(filename))) {
       int size = in.readInt();
       for (int i = 0; i < size; i++) {
         Board board = new Board();
-        board.no = in.readInt();
-        board.title = in.readUTF();
-        board.content = in.readUTF();
-        board.writer = in.readUTF();
-        board.password = in.readUTF();
-        board.viewCount = in.readInt();
-        board.createdDate = in.readLong();
-
+        board = (Board) in.readObject();
         list.add(board);
         boardNo = board.no;
       }
@@ -41,16 +34,10 @@ public class BoardDao {
   }
 
   public void save() throws Exception {
-    try (DataOutputStream out = new DataOutputStream(new FileOutputStream(filename))) {
-      out.writeInt(list.size());  
+    try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(filename))) {
+      out.writeInt(list.size());
       for (Board board : list) {
-        out.writeInt(board.no);
-        out.writeUTF(board.title);
-        out.writeUTF(board.content);
-        out.writeUTF(board.writer);
-        out.writeUTF(board.password);
-        out.writeInt(board.viewCount);
-        out.writeLong(board.createdDate);
+        out.writeObject(board);
       }
     }
   }
