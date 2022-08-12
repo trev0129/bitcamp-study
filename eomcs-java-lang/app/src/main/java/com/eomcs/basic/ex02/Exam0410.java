@@ -4,6 +4,7 @@ package com.eomcs.basic.ex02;
 import java.util.Calendar;
 
 public class Exam0410 {
+
   public static void main(String[] args) {
 
     Calendar c1;

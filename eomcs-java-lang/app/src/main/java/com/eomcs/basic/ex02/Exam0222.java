@@ -11,7 +11,7 @@ public class Exam0222 {
     // 즉 Wrapper 객체의 값을 primitive data type 변수에 직접 할당할 수 있다.
     //
     Integer obj = Integer.valueOf(300);
-    int i = obj; // ==> obj.intValue()
+    int i = obj; // obj ==> obj.intValue()
 
     // obj에 저장된 것은 int 값이 아니라 Integer 객체의 주소인데 어떻게 가능한가?
     // => 내부적으로 obj.intValue() 호출 코드로 바뀐다.

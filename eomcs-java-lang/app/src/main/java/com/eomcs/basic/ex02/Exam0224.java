@@ -34,7 +34,7 @@ public class Exam0224 {
 
     // obj 레퍼런스에 들어 있는 값이
     // int의 wrapper 클래스인지 확인해보자!
-    System.out.println(obj instanceof Integer);
+    System.out.println(obj instanceof Integer); //instanceof=>들어있는 값이 이 클래스맞는지 검사하연산자 
   }
 }
 
