@@ -5,7 +5,7 @@ package com.bitcamp.util;
 
 public class Prompt {
 
-  private static java.util.Scanner keyboardInput = new java.util.Scanner(System.in);
+  static java.util.Scanner keyboardInput = new java.util.Scanner(System.in);
 
   public static int inputInt() {
     String str = keyboardInput.nextLine();
@@ -15,7 +15,11 @@ public class Prompt {
   public static int inputInt(String title) {
     System.out.print(title);
     String str = keyboardInput.nextLine();
-    return Integer.parseInt(str);
+    try {
+      return Integer.parseInt(str); 
+    } catch (Exception e) {
+      return -121212;
+    }
   }
 
   public static String inputString() {

@@ -5,56 +5,76 @@ package com.bitcamp.board.handler;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import com.bitcamp.board.dao.BoardDao;
+import com.bitcamp.board.dao.BoardList;
 import com.bitcamp.board.domain.Board;
-import com.bitcamp.handler.AbstractHandler;
 import com.bitcamp.util.Prompt;
 
-public class BoardHandler extends AbstractHandler {
+public class BoardHandler {
+
+  private String title; // 게시판의 제목
 
   // 게시글 목록을 관리할 객체 준비
-  private BoardDao boardDao;
+  private BoardList boardList = new BoardList();
 
-  public BoardHandler(String filename) {
-    // 수퍼 클래스의 생성자를 호출할 때 메뉴 목록을 전달한다.
-    super(new String[] {"목록", "상세보기", "등록", "삭제", "변경"});
-
-    boardDao = new BoardDao(filename);
-
-    try {
-      boardDao.load();
-    } catch (Exception e) {
-      System.out.printf("%s 파일 로딩 중 오류 발생!\n", filename);
-      //      e.printStackTrace();
-    }
+  public BoardHandler() {
+    this.title = "게시판";
   }
 
-  // 템플릿 메서드 패턴(template method pattern) 
-  //   - 수퍼 클래스의 execute()에서 동작의 전체적인 흐름을 정의하고(틀을 만들고),
-  //   - 서브 클래스의 service()에서 동작을 구제척으로 정의한다.(세부적인 항목을 구현한다)
-  @Override
-  public void service(int menuNo) {
-    try {
-      switch (menuNo) {
-        case 1: this.onList(); break;
-        case 2: this.onDetail(); break;
-        case 3: this.onInput(); break;
-        case 4: this.onDelete(); break;
-        case 5: this.onUpdate(); break;
+  public BoardHandler(String title) {
+    this.title = title;
+  }
+
+  public void execute() {
+    while (true) {
+      System.out.printf("%s:\n", this.title);
+      System.out.println("  1: 목록");
+      System.out.println("  2: 상세보기");
+      System.out.println("  3: 등록");
+      System.out.println("  4: 삭제");
+      System.out.println("  5: 변경");
+      System.out.println();
+      try {
+        int menuNo = Prompt.inputInt("메뉴를 선택하세요[1..5](0: 이전) ");
+        displayHeadline();
+
+        // 다른 인스턴스 메서드를 호출할 때 this에 보관된 인스턴스 주소를 사용한다. 
+        switch (menuNo) {
+          case 0: return;
+          case 1: this.onList(); break;
+          case 2: this.onDetail(); break;
+          case 3: this.onInput(); break;
+          case 4: this.onDelete(); break;
+          case 5: this.onUpdate(); break;
+          default: System.out.println("메뉴 번호가 옳지 않습니다!");
+        }
+
+
+        displayBlankLine();
+      } catch (Exception e) {
+        System.out.printf("예외 발생! : %s\n", e.getMessage());
       }
-    } catch (Exception e) {
-      throw new RuntimeException(e);
-    }
+    } // 게시판 while
+  }
+
+  private static void displayHeadline() {
+    System.out.println("=========================================");
+  }
+
+  private static void displayBlankLine() {
+    System.out.println(); // 메뉴를 처리한 후 빈 줄 출력
   }
 
   private void onList() {
     SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 
+    System.out.printf("[%s 목록]\n", this.title);
     System.out.println("번호 제목 조회수 작성자 등록일");
 
-    Board[] boards = this.boardDao.findAll();
+    // boardList 인스턴스에 들어 있는 데이터 목록을 가져온다.
+    Object[] list = this.boardList.toArray();
 
-    for (Board board : boards) {
+    for (Object item : list) {
+      Board board = (Board) item;
       Date date = new Date(board.createdDate);
       String dateStr = formatter.format(date); 
       System.out.printf("%d\t%s\t%d\t%s\t%s\n",
@@ -63,19 +83,21 @@ public class BoardHandler extends AbstractHandler {
 
   }
 
-  private void onDetail() {
+  private void onDetail() throws Exception {
+    System.out.printf("[%s 상세보기]\n", this.title);
+
     int boardNo = 0;
     while (true) {
       try {
         boardNo = Prompt.inputInt("조회할 게시글 번호? ");
         break;
-      } catch (Exception ex) {
-        System.out.println("입력 값이 옳지 않습니다!");
+      } catch (Exception e) {
+        System.out.println("입력 값이 옳지 않습니다.");
       }
     }
 
     // 해당 번호의 게시글이 몇 번 배열에 들어 있는지 알아내기
-    Board board = this.boardDao.findByNo(boardNo);
+    Board board = this.boardList.get(boardNo);
 
     // 사용자가 입력한 번호에 해당하는 게시글을 못 찾았다면
     if (board == null) {
@@ -93,7 +115,9 @@ public class BoardHandler extends AbstractHandler {
 
   }
 
-  private void onInput() throws Exception {
+  private void onInput() {
+    System.out.printf("[%s 등록]\n", this.title);
+
     Board board = new Board();
 
     board.title = Prompt.inputString("제목? ");
@@ -103,25 +127,25 @@ public class BoardHandler extends AbstractHandler {
     board.viewCount = 0;
     board.createdDate = System.currentTimeMillis();
 
-    this.boardDao.insert(board);
-    this.boardDao.save();
+    this.boardList.add(board);
 
     System.out.println("게시글을 등록했습니다.");
   }
 
   private void onDelete() throws Exception {
+    System.out.printf("[%s 삭제]\n", this.title);
+
     int boardNo = 0;
     while (true) {
       try {
-        boardNo = Prompt.inputInt("삭제할 게시글 번호? ");
+        boardNo = Prompt.inputInt("조회할 게시글 번호? ");
         break;
-      } catch (Exception ex) {
-        System.out.println("입력 값이 옳지 않습니다!");
+      } catch (Exception e) {
+        System.out.println("입력 값이 옳지 않습니다.");
       }
     }
 
-    if (boardDao.delete(boardNo)) {
-      this.boardDao.save();
+    if (boardList.remove(boardNo)) {
       System.out.println("삭제하였습니다.");
     } else {
       System.out.println("해당 번호의 게시글이 없습니다!");
@@ -129,17 +153,19 @@ public class BoardHandler extends AbstractHandler {
   }
 
   private void onUpdate() throws Exception {
+    System.out.printf("[%s 변경]\n", this.title);
+
     int boardNo = 0;
     while (true) {
       try {
-        boardNo = Prompt.inputInt("변경할 게시글 번호? ");
+        boardNo = Prompt.inputInt("조회할 게시글 번호? ");
         break;
-      } catch (Throwable ex) {
-        System.out.println("입력 값이 옳지 않습니다!");
+      } catch (Exception e) {
+        System.out.println("입력 값이 옳지 않습니다.");
       }
     }
 
-    Board board = this.boardDao.findByNo(boardNo);
+    Board board = this.boardList.get(boardNo);
 
     if (board == null) {
       System.out.println("해당 번호의 게시글이 없습니다!");
@@ -153,7 +179,6 @@ public class BoardHandler extends AbstractHandler {
     if (input.equals("y")) {
       board.title = newTitle;
       board.content = newContent;
-      this.boardDao.save();
       System.out.println("변경했습니다.");
     } else {
       System.out.println("변경 취소했습니다.");
