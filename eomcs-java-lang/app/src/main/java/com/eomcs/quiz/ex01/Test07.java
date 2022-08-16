@@ -40,7 +40,12 @@ public class Test07 {
 
   static int factorialTrailingZeros(int n) {  
     int result = 0;
-    // 이 메서드를 완성하시오!
+    int k = 5;
+    while (n/k != 0) {
+      result += n / k;
+      k *= k;
+    }
+
     return result;
   }
 }

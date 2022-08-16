@@ -4,11 +4,15 @@
  */
 package com.bitcamp.board;
 
+import java.util.Stack;
 import com.bitcamp.board.handler.BoardHandler;
 import com.bitcamp.board.handler.MemberHandler;
+import com.bitcamp.handler.Handler;
 import com.bitcamp.util.Prompt;
 
 public class App {
+
+  public static Stack<String> breadcrumbMenu = new Stack<>();
 
   public static void main(String[] args) {
     welcome();
@@ -16,51 +20,49 @@ public class App {
     // 인스턴스를 생성할 때 생성자가 원하는 값을 반드시 줘야 한다.
     // 주지 않으면 컴파일 오류이다!
     //
-    BoardHandler boardHandler = new BoardHandler("게시판");
-    BoardHandler readingHandler = new BoardHandler("독서록");
-    BoardHandler visitHandler = new BoardHandler("방명록");
-    BoardHandler noticeHandler = new BoardHandler("공지사항");
-    BoardHandler diaryHandler = new BoardHandler("일기장");
-    MemberHandler memberHandler = new MemberHandler("회원");
+    Handler[] handlers = {
+        new BoardHandler("board.csv"), // 게시판
+        new BoardHandler("reading.csv"), // 독서록
+        new BoardHandler("visit.csv"), // 방명록
+        new BoardHandler("notice.csv"), // 공지사항
+        new BoardHandler("daily.csv"), // 일기장
+        new MemberHandler("member.csv") // 회원
+    };
+
+    App.breadcrumbMenu.push("메인");
+
+    String[] menus = {"게시판", "독서록", "방명록", "공지사항", "일기장", "회원"};
 
     loop: while (true) {
 
       // 메인 메뉴 출력
-      System.out.println("메뉴:");
-      System.out.println("  1: 게시판");
-      System.out.println("  2: 독서록");
-      System.out.println("  3: 방명록");
-      System.out.println("  4: 공지사항");
-      System.out.println("  5: 일기장");
-      System.out.println("  6: 회원");
+      System.out.printf("%s:\n", App.breadcrumbMenu);
+
+      printMenus(menus);
+
       System.out.println();
+
       try {
         int mainMenuNo = Prompt.inputInt("메뉴를 선택하세요[1..6](0: 종료) ");
 
-        switch (mainMenuNo) {
-          case 0: break loop;
-          case 1: // 게시판
-            boardHandler.execute();
-            break;
-          case 2: // 독서록
-            readingHandler.execute();
-            break;
-          case 3: // 방명록
-            visitHandler.execute();
-            break;
-          case 4: // 공지사항
-            noticeHandler.execute();
-            break;
-          case 5: // 일기장
-            diaryHandler.execute();
-          case 6: // 회원
-            memberHandler.execute();
-            break;
-          default: System.out.println("메뉴 번호가 옳지 않습니다!");
-        } // switch
-      } catch (Exception e) {
+        if (mainMenuNo < 0 || mainMenuNo > menus.length) {
+          System.out.println("메뉴 번호가 옳지 않습니다.");
+        } else if (mainMenuNo == 0) {
+          break loop;
+        }
+
+        App.breadcrumbMenu.push(menus[mainMenuNo - 1]);
+
+
+        handlers[mainMenuNo - 1].execute();
+
+
+        App.breadcrumbMenu.pop();
+
+      } catch (Exception ex) {
         System.out.println("입력 값이 옳지 않습니다.");
       }
+
 
     } // while
 
@@ -73,6 +75,12 @@ public class App {
     System.out.println();
     System.out.println("환영합니다!");
     System.out.println();
+  }
+
+  static void printMenus(String[] menus) {
+    for (int i = 0; i < menus.length; i++) {
+      System.out.printf("  %d: %s\n", i + 1, menus[i]);
+    }
   }
 }
 
