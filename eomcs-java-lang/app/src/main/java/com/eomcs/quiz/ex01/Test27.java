@@ -39,18 +39,28 @@ public class Test27 {
   }
 
   static int evenNumbersBeforeFixed(int[] sequence, int fixedElement) {
-    int result = -1;
+    int result = 0;
     for (int i = 0; i < sequence.length; i++) {
+      if (sequence[i] % 2 == 0 && sequence[i] != fixedElement) {
+        result++;
+      }
       if (sequence[i] == fixedElement) {
-        result = 0;
-        for (int j = 0; j < i; j++) {
-          if (sequence[j] % 2 == 0) {
-            result++;
-          }
-        }
+        return result;
       }
     }
-
-    return result;
+    //    int result = -1;
+    //    for (int i = 0; i < sequence.length; i++) {
+    //      if (sequence[i] == fixedElement) {
+    //        result = 0;
+    //        for (int j = 0; j < i; j++) {
+    //          if (sequence[j] % 2 == 0) {
+    //            result++;
+    //          }
+    //        }
+    //      }
+    //    }
+    //
+    //    return result;
+    return -1;
   }
 }

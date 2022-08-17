@@ -1,5 +1,9 @@
 package com.eomcs.quiz.ex02;
 
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+
 // copyright by codefights.com
 // 
 // 삼각형의 세변 길이가 주어질 때,
@@ -26,7 +30,7 @@ true if the triangle with sides from the sides array is a right triangle, false 
 // [시간 복잡도]
 // - ? 
 //
-public class Test11 {
+public class Test11 {   
 
   public static void main(String[] args) {
     System.out.println(rightTriangle(new int[] {4, 5, 3}) == true);
@@ -34,7 +38,16 @@ public class Test11 {
   }
 
   static boolean rightTriangle(int[] sides) {
+    List<Integer> list = Arrays.asList(sides[0] * sides[0], sides[1] * sides[1], sides[2] * sides[2]);
+    Collections.sort(list);
+    return list.get(0) + list.get(1) == list.get(2);
 
-    return false;
+    //    ArrayList<Integer> list = new ArrayList<>();
+    //    for (int i : sides) {
+    //      list.add(i * i);
+    //    }
+    //    Collections.sort(list);
+    //    return list.get(0) + list.get(1) == list.get(2);
+
   }
 }
