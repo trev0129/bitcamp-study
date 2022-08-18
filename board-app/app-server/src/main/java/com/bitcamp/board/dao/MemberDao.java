@@ -51,16 +51,6 @@ public class MemberDao {
     list.add(member);
   }
 
-  public Member findByEmail(String email) {
-    for (int i = 0; i < list.size(); i++) {
-      Member member = list.get(i);
-      if (member.email.equals(email)) {
-        return member;
-      }
-    }
-    return null;
-  }
-
   public boolean update(Member member) {
     for (int i = 0; i < list.size(); i++) {
       Member m = list.get(i);
@@ -70,6 +60,16 @@ public class MemberDao {
       }
     }
     return false;
+  }
+
+  public Member findByEmail(String email) {
+    for (int i = 0; i < list.size(); i++) {
+      Member member = list.get(i);
+      if (member.email.equals(email)) {
+        return member;
+      }
+    }
+    return null;
   }
 
   public boolean delete(String email) {

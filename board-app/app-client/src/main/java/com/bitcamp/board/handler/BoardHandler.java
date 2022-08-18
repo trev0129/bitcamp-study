@@ -5,8 +5,8 @@ package com.bitcamp.board.handler;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
-import java.sql.Date;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import com.bitcamp.board.domain.Board;
 import com.bitcamp.handler.AbstractHandler;
 import com.bitcamp.util.Prompt;
@@ -44,6 +44,7 @@ public class BoardHandler extends AbstractHandler {
   }
 
   private void onList() throws Exception {
+
     out.writeUTF(dataName);
     out.writeUTF("findAll");
 
@@ -65,6 +66,7 @@ public class BoardHandler extends AbstractHandler {
       System.out.printf("%d\t%s\t%d\t%s\t%s\n",
           board.no, board.title, board.viewCount, board.writer, dateStr);
     }
+
   }
 
   private void onDetail() throws Exception {
@@ -97,6 +99,7 @@ public class BoardHandler extends AbstractHandler {
     System.out.printf("작성자: %s\n", board.writer);
     Date date = new Date(board.createdDate);
     System.out.printf("등록일: %tY-%1$tm-%1$td %1$tH:%1$tM\n", date);
+
   }
 
   private void onInput() throws Exception {
@@ -118,7 +121,8 @@ public class BoardHandler extends AbstractHandler {
       System.out.println("게시글을 등록했습니다.");
     } else {
       System.out.println("게시글 등록에 실패했습니다!");
-    }
+    }  
+
   }
 
   private void onDelete() throws Exception {
@@ -137,10 +141,11 @@ public class BoardHandler extends AbstractHandler {
     out.writeInt(boardNo);
 
     if (in.readUTF().equals("success")) {
-      System.out.println("삭제하였습니다.");
+      System.out.println("게시글을 삭제했습니다.");
     } else {
-      System.out.println("해당 번호의 게시글이 없습니다!");
-    }
+      System.out.println("게시글 삭제에 실패했습니다!");
+    }  
+
   }
 
   private void onUpdate() throws Exception {
@@ -154,7 +159,6 @@ public class BoardHandler extends AbstractHandler {
       }
     }
 
-    // 변경할 게시글 가져오기
     out.writeUTF(dataName);
     out.writeUTF("findByNo");
     out.writeInt(boardNo);
@@ -171,9 +175,7 @@ public class BoardHandler extends AbstractHandler {
     board.content = Prompt.inputString(String.format("내용?(%s) ", board.content));
 
     String input = Prompt.inputString("변경하시겠습니까?(y/n) ");
-
     if (input.equals("y")) {
-      // 게시글 변경하기
       out.writeUTF(dataName);
       out.writeUTF("update");
       out.writeUTF(new Gson().toJson(board));
@@ -187,6 +189,7 @@ public class BoardHandler extends AbstractHandler {
     } else {
       System.out.println("변경 취소했습니다.");
     }
+
   }
 }
 

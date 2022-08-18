@@ -17,7 +17,7 @@ public class BoardServlet implements Servlet {
   private String filename;
 
   public BoardServlet(String dataName) {
-    filename = dataName + ".json";
+    this.filename = dataName + ".json";
     boardDao = new BoardDao(filename);
 
     try {
@@ -69,6 +69,7 @@ public class BoardServlet implements Servlet {
           } else {
             out.writeUTF(FAIL);
           }
+
           break;
         case "delete": 
           no = in.readInt();

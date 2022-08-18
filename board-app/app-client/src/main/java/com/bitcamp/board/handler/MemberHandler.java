@@ -23,6 +23,7 @@ public class MemberHandler extends AbstractHandler {
     this.dataName = dataName;
     this.in = in;
     this.out = out;
+
   }
 
   @Override
@@ -48,7 +49,6 @@ public class MemberHandler extends AbstractHandler {
       System.out.println("목록을 가져오는데 실패했습니다!");
       return;
     }
-
     String json = in.readUTF();
     Member[] members = new Gson().fromJson(json, Member[].class);
 
@@ -58,6 +58,7 @@ public class MemberHandler extends AbstractHandler {
       System.out.printf("%s\t%s\n",
           member.email, member.name);
     }
+
   }
 
   private void onDetail() throws Exception {
@@ -72,13 +73,18 @@ public class MemberHandler extends AbstractHandler {
       return;
     }
 
-    String json = in.readUTF();
-    Member member = new Gson().fromJson(json, Member.class);
+    Member member = new Gson().fromJson(in.readUTF(), Member.class);
+    //
+    //    if (member == null) {
+    //      System.out.println("해당 이메일의 회원이 없습니다!");
+    //      return;
+    //    }
 
     System.out.printf("이름: %s\n", member.name);
     System.out.printf("이메일: %s\n", member.email);
     Date date = new Date(member.createdDate);
     System.out.printf("등록일: %tY-%1$tm-%1$td %1$tH:%1$tM\n", date);
+
   }
 
   private void onInput() throws Exception {
@@ -91,14 +97,14 @@ public class MemberHandler extends AbstractHandler {
 
     out.writeUTF(dataName);
     out.writeUTF("insert");
-    String json = new Gson().toJson(member);
-    out.writeUTF(json);
+    out.writeUTF(new Gson().toJson(member));
 
     if (in.readUTF().equals("success")) {
       System.out.println("회원을 등록했습니다.");
     } else {
       System.out.println("회원 등록에 실패했습니다!");
     }
+
   }
 
   private void onDelete() throws Exception {
@@ -113,12 +119,12 @@ public class MemberHandler extends AbstractHandler {
     } else {
       System.out.println("해당 이메일의 회원이 없습니다!");
     }
+
   }
 
   private void onUpdate() throws Exception {
     String email = Prompt.inputString("변경할 회원 이메일? ");
 
-    // 변경할 회원 가져오기
     out.writeUTF(dataName);
     out.writeUTF("findByEmail");
     out.writeUTF(email);
@@ -128,15 +134,18 @@ public class MemberHandler extends AbstractHandler {
       return;
     }
 
-    String json = in.readUTF();
-    Member member = new Gson().fromJson(json, Member.class);
+    Member member = new Gson().fromJson(in.readUTF(), Member.class);
+
+    //    if (member == null) {
+    //      System.out.println("해당 이메일의 회원이 없습니다!");
+    //      return;
+    //    }
 
     member.name = Prompt.inputString("이름?(" + member.name + ") ");
 
     String input = Prompt.inputString("변경하시겠습니까?(y/n) ");
 
     if (input.equals("y")) {
-      // 회원 변경하기
       out.writeUTF(dataName);
       out.writeUTF("update");
       out.writeUTF(new Gson().toJson(member));

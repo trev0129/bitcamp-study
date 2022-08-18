@@ -12,7 +12,7 @@ public class Exam0110 {
     String s4 = new String("ddd");
     String s5 = new String("eee");
 
-    ArrayBlockingQueue queue = new ArrayBlockingQueue(10);
+    ArrayBlockingQueue<String> queue = new ArrayBlockingQueue<>(10);
     queue.offer(s1); // aaa,
     queue.offer(s2); // aaa, bbb,
     queue.offer(s3); // aaa, bbb, ccc,
@@ -32,12 +32,12 @@ public class Exam0110 {
     System.out.println("------------------------");
 
     String value;
-    while ((value = (String) queue.poll()) != null) {
+    while ((value = queue.poll()) != null) {
       System.out.println(value);
     }
   }
 
-  static void print(ArrayBlockingQueue queue) {
+  static void print(ArrayBlockingQueue<String> queue) {
     Object[] arr = queue.toArray();
     for (int i = 0; i < arr.length; i++) {
       System.out.print(arr[i] + ", ");

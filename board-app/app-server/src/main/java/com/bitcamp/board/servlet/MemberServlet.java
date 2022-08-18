@@ -16,7 +16,8 @@ public class MemberServlet implements Servlet {
   private String filename;
 
   public MemberServlet(String dataName) {
-    filename = dataName + ".json";
+
+    this.filename = dataName + ".json";
     memberDao = new MemberDao(filename);
 
     try {
@@ -30,14 +31,13 @@ public class MemberServlet implements Servlet {
   @Override
   public void service(DataInputStream in, DataOutputStream out) {
     try {
-
       String command = in.readUTF();
-      com.bitcamp.board.domain.Member member = null;
+      Member member= null;
       String email = null;
       String json = null;
 
       switch (command) {
-        case "findAll":
+        case "findAll": 
           Member[] members = memberDao.findAll();
           out.writeUTF(SUCCESS);
           out.writeUTF(new Gson().toJson(members));
@@ -59,6 +59,15 @@ public class MemberServlet implements Servlet {
           memberDao.save();
           out.writeUTF(SUCCESS);
           break;
+        case "delete": 
+          email = in.readUTF();
+          if (memberDao.delete(email)) {
+            memberDao.save();
+            out.writeUTF(SUCCESS);
+          } else {
+            out.writeUTF(FAIL);
+          }
+          break;
         case "update": 
           json = in.readUTF();
           member = new Gson().fromJson(json, Member.class);
@@ -69,22 +78,12 @@ public class MemberServlet implements Servlet {
             out.writeUTF(FAIL);
           }
           break;
-        case "delete": 
-          email = in.readUTF();
-          if (memberDao.delete(email)) {
-            memberDao.save();
-            out.writeUTF(SUCCESS);
-          } else {
-            out.writeUTF(FAIL);
-          }
-          break;
-        default:
-          out.writeUTF(FAIL);
       }
     } catch (Exception e) {
       throw new RuntimeException(e);
     }
   }
+
 }
 
 

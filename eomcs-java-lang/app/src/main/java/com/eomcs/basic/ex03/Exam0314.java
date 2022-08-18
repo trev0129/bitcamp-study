@@ -90,9 +90,6 @@ public class Exam0314 {
     list.add(m2);
     list.add(m3);
 
-    for (Member m : list) {
-      System.out.printf("이름: %s, 나이: %d\n", m.name, m.age);
-    }
   }
 }
 
