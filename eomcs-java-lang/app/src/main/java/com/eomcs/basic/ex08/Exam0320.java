@@ -29,13 +29,12 @@ public class Exam0320 {
     // 따라서 Iterator를 생성한 후에 목록을 변경하면,
     // 기존 목록에서 뽑은 Iterator는 무효한 객체가 된다.
 
-    map.put("s06", new Member("김구", 50));
     map.remove("s01");
 
     // 해결책?
     // - 값을 변경하면 다시 Iterator를 얻어야 한다.
     //
-    //    키를꺼내주는객체 = keys.iterator();
+    키를꺼내주는객체 = keys.iterator();
 
     // 무효한 Iterator를 사용하면 실행오류가 발생할 것이다.
     while (키를꺼내주는객체.hasNext()) {
