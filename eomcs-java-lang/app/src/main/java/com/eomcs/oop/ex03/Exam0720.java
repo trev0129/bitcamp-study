@@ -18,6 +18,7 @@ public class Exam0720 {
     {
       a = 100;
       System.out.println("인스턴스 초기화 블록 실행!");
+      System.out.println(a);
     }
 
     // 생성자가 있으면,
@@ -26,6 +27,7 @@ public class Exam0720 {
     public A() {
       a = 200;
       System.out.println("A() 생성자 호출");
+      System.out.println(a);
     }
   }
 

@@ -18,7 +18,7 @@ public class ServerApp {
     servletMap .put("visit", new BoardServlet("visit"));
     servletMap .put("notice", new BoardServlet("notice"));
     servletMap .put("daily", new BoardServlet("daily"));
-    servletMap .put("member", new MemberServlet("member"));
+    servletMap .put("member", new MemberServlet("member"));   
 
     System.out.println("[게시글 데이터 관리 서버]");
 
