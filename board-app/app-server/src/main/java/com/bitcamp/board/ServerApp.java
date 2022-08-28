@@ -36,6 +36,7 @@ public class ServerApp {
 
             System.out.println("클라이언트와 연결 되었음!");
 
+
             String dataName = in.readUTF();
 
             // 로컬클래스는 바깥메서드의 로컬 변수를 자신의 멤버인 것처럼 사용할 수 있다.
@@ -48,14 +49,14 @@ public class ServerApp {
             }
 
 
-            System.out.println("클라이언트와 연결을 끊었음!");
+            System.out.println("클라이언트와 연결을 끊었음!");   
           } catch (Exception e) {
             System.out.println("클라이언트 요청 처리 중 오류 발생!");
             e.printStackTrace();
           }
         }).start();
       } // while
-
+      //d 
     } catch (Exception e) {
       e.printStackTrace();
     } // 바깥 쪽 try 
@@ -63,3 +64,5 @@ public class ServerApp {
     System.out.println("서버 종료!");
   }
 }
+
+

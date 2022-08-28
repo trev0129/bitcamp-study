@@ -61,6 +61,14 @@ public class Exam0120 {
     public void run() {
       for (int i = 0; i < 20; i++) {
         list.add(value);
+
+        // add() 호출 후 다른 스레드에게 CPU 사용권을 주기 위한 
+
+        int count = (int)(Math.random() * 1000);
+        for (int j= 0; j < count; j++) {
+          Math.atan(34.1234);
+        }
+
       }
     }
   }
