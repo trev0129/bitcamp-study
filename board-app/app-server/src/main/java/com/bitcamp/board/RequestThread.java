@@ -15,7 +15,7 @@ public class RequestThread extends Thread {
 
   public RequestThread(Socket socket, Map<String,Servlet> servletMAp) {
     this.socket = socket;
-    this.servletMap = servletMAp;
+    this.servletMap = servletMAp;      
   }
 
   // 별도의 실행흐름에서 수행할 작업 정의
