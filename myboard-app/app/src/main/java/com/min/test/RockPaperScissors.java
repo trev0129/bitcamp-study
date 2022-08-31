@@ -45,13 +45,13 @@ public class RockPaperScissors {
     } else if (ran > 1) {
       return "가위";
     } else {
-      return "보";
+      return "보"; 
     }
   }
 
   static void matchResult(String select) {
     switch (select) {
-      case "가위": 
+      case "가위":   
         System.out.printf("당신 : 가위\n");
         match(SCISSORS);
         break;
