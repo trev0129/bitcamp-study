@@ -1,3 +1,9 @@
+
+--다시 한 번 확인하기 
+
+
+
+
 -- 수강신청
 DROP TABLE IF EXISTS ems_application RESTRICT;
 
