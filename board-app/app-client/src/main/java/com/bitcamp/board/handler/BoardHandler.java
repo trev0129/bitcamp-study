@@ -3,23 +3,22 @@
  */
 package com.bitcamp.board.handler;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import com.bitcamp.board.dao.BoardDaoProxy;
+import java.util.List;
+import com.bitcamp.board.dao.MariaDBBoardDao;
 import com.bitcamp.board.domain.Board;
 import com.bitcamp.handler.AbstractHandler;
 import com.bitcamp.util.Prompt;
 
 public class BoardHandler extends AbstractHandler {
 
-  BoardDaoProxy boardDao;
+  MariaDBBoardDao boardDao;
 
-  public BoardHandler(String dataName, String ip, int port) {
+  public BoardHandler() {
 
     // 수퍼 클래스의 생성자를 호출할 때 메뉴 목록을 전달한다.
     super(new String[] {"목록", "상세보기", "등록", "삭제", "변경"});
 
-    boardDao = new BoardDaoProxy(dataName, ip, port);
+    boardDao = new MariaDBBoardDao();
 
   }
 
@@ -40,21 +39,13 @@ public class BoardHandler extends AbstractHandler {
 
   private void onList() throws Exception {
 
-    Board[] boards = boardDao.findAll();
-
-    if (boards == null) {
-      System.out.println("목록을 가져오는데 실패했습니다!");
-      return;
-    }
-    SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+    List<Board> boards = boardDao.findAll();
 
     System.out.println("번호 제목 조회수 작성자 등록일");
 
     for (Board board : boards) {
-      Date date = new Date(board.createdDate);
-      String dateStr = formatter.format(date); 
-      System.out.printf("%d\t%s\t%d\t%s\t%s\n",
-          board.no, board.title, board.viewCount, board.writer, dateStr);
+      System.out.printf("%d\t%s\t%d\t%d\t%s\n",
+          board.no, board.title, board.viewCount, board.memberNo, board.createdDate);
     }
 
   }
@@ -81,9 +72,8 @@ public class BoardHandler extends AbstractHandler {
     System.out.printf("제목: %s\n", board.title);
     System.out.printf("내용: %s\n", board.content);
     System.out.printf("조회수: %d\n", board.viewCount);
-    System.out.printf("작성자: %s\n", board.writer);
-    Date date = new Date(board.createdDate);
-    System.out.printf("등록일: %tY-%1$tm-%1$td %1$tH:%1$tM\n", date);
+    System.out.printf("작성자: %s\n", board.memberNo);
+    System.out.printf("등록일: %s\n", board.createdDate);
 
   }
 
@@ -92,16 +82,11 @@ public class BoardHandler extends AbstractHandler {
 
     board.title = Prompt.inputString("제목? ");
     board.content = Prompt.inputString("내용? ");
-    board.writer = Prompt.inputString("작성자? ");
-    board.password = Prompt.inputString("암호? ");
-    board.viewCount = 0;
-    board.createdDate = System.currentTimeMillis();
+    board.memberNo = Prompt.inputInt("작성자? ");
 
-    if (boardDao.insert(board)) {
-      System.out.println("게시글을 등록했습니다.");
-    } else {
-      System.out.println("게시글 등록에 실패했습니다!");
-    }  
+
+    boardDao.insert(board);
+    System.out.println("게시글을 등록했습니다.");
 
   }
 
@@ -116,7 +101,7 @@ public class BoardHandler extends AbstractHandler {
       }
     }
 
-    if (boardDao.delete(boardNo)) {
+    if (boardDao.delete(boardNo) == 1) {
       System.out.println("게시글을 삭제했습니다.");
     } else {
       System.out.println("게시글 삭제에 실패했습니다!");
@@ -148,7 +133,7 @@ public class BoardHandler extends AbstractHandler {
     String input = Prompt.inputString("변경하시겠습니까?(y/n) ");
 
     if (input.equals("y")) {
-      if (boardDao.update(board)) {
+      if (boardDao.update(board) == 1) {
         System.out.println("변경했습니다.");
       } else {
         System.out.println("변경 실패입니다!");

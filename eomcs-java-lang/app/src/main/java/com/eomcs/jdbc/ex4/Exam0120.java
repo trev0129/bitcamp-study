@@ -72,5 +72,3 @@ public class Exam0120 {
     }
   }
 }
-
-
