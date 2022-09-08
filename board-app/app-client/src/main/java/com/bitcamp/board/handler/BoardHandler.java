@@ -4,22 +4,20 @@
 package com.bitcamp.board.handler;
 
 import java.util.List;
-import com.bitcamp.board.dao.MariaDBBoardDao;
+import com.bitcamp.board.dao.BoardDao;
 import com.bitcamp.board.domain.Board;
 import com.bitcamp.handler.AbstractHandler;
 import com.bitcamp.util.Prompt;
 
 public class BoardHandler extends AbstractHandler {
 
-  MariaDBBoardDao boardDao;
+  private BoardDao boardDao;
 
-  public BoardHandler() {
+  public BoardHandler(BoardDao boardDao) {
 
     // 수퍼 클래스의 생성자를 호출할 때 메뉴 목록을 전달한다.
     super(new String[] {"목록", "상세보기", "등록", "삭제", "변경"});
-
-    boardDao = new MariaDBBoardDao();
-
+    this.boardDao = boardDao;
   }
 
   @Override
@@ -38,7 +36,6 @@ public class BoardHandler extends AbstractHandler {
   }
 
   private void onList() throws Exception {
-
     List<Board> boards = boardDao.findAll();
 
     System.out.println("번호 제목 조회수 작성자 등록일");
@@ -47,7 +44,6 @@ public class BoardHandler extends AbstractHandler {
       System.out.printf("%d\t%s\t%d\t%d\t%s\n",
           board.no, board.title, board.viewCount, board.memberNo, board.createdDate);
     }
-
   }
 
   private void onDetail() throws Exception {
@@ -62,7 +58,6 @@ public class BoardHandler extends AbstractHandler {
     }
 
     Board board = boardDao.findByNo(boardNo);
-
     if (board == null) {
       System.out.println("해당 번호의 게시글이 없습니다!");
       return;
@@ -72,9 +67,8 @@ public class BoardHandler extends AbstractHandler {
     System.out.printf("제목: %s\n", board.title);
     System.out.printf("내용: %s\n", board.content);
     System.out.printf("조회수: %d\n", board.viewCount);
-    System.out.printf("작성자: %s\n", board.memberNo);
+    System.out.printf("작성자: %d\n", board.memberNo);
     System.out.printf("등록일: %s\n", board.createdDate);
-
   }
 
   private void onInput() throws Exception {
@@ -83,7 +77,7 @@ public class BoardHandler extends AbstractHandler {
     board.title = Prompt.inputString("제목? ");
     board.content = Prompt.inputString("내용? ");
     board.memberNo = Prompt.inputInt("작성자? ");
-
+    board.password = Prompt.inputString("암호? ");
 
     boardDao.insert(board);
     System.out.println("게시글을 등록했습니다.");
@@ -102,11 +96,10 @@ public class BoardHandler extends AbstractHandler {
     }
 
     if (boardDao.delete(boardNo) == 1) {
-      System.out.println("게시글을 삭제했습니다.");
+      System.out.println("삭제하였습니다.");
     } else {
-      System.out.println("게시글 삭제에 실패했습니다!");
-    }  
-
+      System.out.println("해당 번호의 게시글이 없습니다!");
+    }
   }
 
   private void onUpdate() throws Exception {
@@ -120,6 +113,7 @@ public class BoardHandler extends AbstractHandler {
       }
     }
 
+    // 변경할 게시글 가져오기
     Board board = boardDao.findByNo(boardNo);
 
     if (board == null) {
@@ -133,6 +127,8 @@ public class BoardHandler extends AbstractHandler {
     String input = Prompt.inputString("변경하시겠습니까?(y/n) ");
 
     if (input.equals("y")) {
+      // 게시글 변경하기
+
       if (boardDao.update(board) == 1) {
         System.out.println("변경했습니다.");
       } else {
@@ -142,7 +138,6 @@ public class BoardHandler extends AbstractHandler {
     } else {
       System.out.println("변경 취소했습니다.");
     }
-
   }
 }
 

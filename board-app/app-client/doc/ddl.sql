@@ -32,7 +32,7 @@ CREATE TABLE app_member (
   name  VARCHAR(50)  NOT NULL COMMENT '이름', -- 이름
   email VARCHAR(40)  NOT NULL COMMENT '이메일', -- 이메일
   pwd   VARCHAR(100) NOT NULL COMMENT '암호', -- 암호
-  cdt   DATETIME     NOT NULL DEFAULT  now() COMMENT '등록일' -- 등록일
+  cdt   DATETIME     NOT NULL DEFAULT now() COMMENT '등록일' -- 등록일
 )
 COMMENT '회원';
 
@@ -67,4 +67,3 @@ ALTER TABLE app_board
     REFERENCES app_member ( -- 회원
       mno -- 회원번호
     );
-    
