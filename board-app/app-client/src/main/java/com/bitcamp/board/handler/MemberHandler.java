@@ -4,19 +4,19 @@
 package com.bitcamp.board.handler;
 
 import java.util.List;
-import com.bitcamp.board.dao.MemberDao;
+import com.bitcamp.board.dao.MariaDBMemberDao;
 import com.bitcamp.board.domain.Member;
 import com.bitcamp.handler.AbstractHandler;
 import com.bitcamp.util.Prompt;
 
 public class MemberHandler extends AbstractHandler {
 
-  private MemberDao memberDao;
+  private MariaDBMemberDao memberDao;
 
-  public MemberHandler(MemberDao memberDao) {
+  public MemberHandler() {
     super(new String[] {"목록", "상세보기", "등록", "삭제", "변경"});
 
-    this.memberDao = memberDao;
+    memberDao = new MariaDBMemberDao();
   }
 
   @Override
@@ -48,10 +48,10 @@ public class MemberHandler extends AbstractHandler {
   private void onDetail() throws Exception {
     int no = Prompt.inputInt("조회할 회원 번호? ");
 
-    Member member =  memberDao.findByNo(no);
+    Member member = memberDao.findByNo(no);
 
     if (member == null) {
-      System.out.println("해당 번호의 회원이 없습니다!");
+      System.out.println("해당 이메일의 회원이 없습니다!");
       return;
     }
 
@@ -84,22 +84,20 @@ public class MemberHandler extends AbstractHandler {
   private void onUpdate() throws Exception {
     int no = Prompt.inputInt("변경할 회원 번호? ");
 
-    // 변경할 회원 가져오기
     Member member = memberDao.findByNo(no);
 
     if (member == null) {
-      System.out.println("해당 이메일의 회원이 없습니다!");
+      System.out.println("해당 번호의 회원이 없습니다!");
       return;
     }
 
     member.name = Prompt.inputString("이름?(" + member.name + ") ");
     member.email = Prompt.inputString("이메일?(" + member.email + ") ");
-    member.password = Prompt.inputString("암호?");    
+    member.password = Prompt.inputString("암호?");
 
     String input = Prompt.inputString("변경하시겠습니까?(y/n) ");
 
     if (input.equals("y")) {
-      // 회원 변경하기
       if (memberDao.update(member) == 1) {
         System.out.println("변경했습니다.");
       } else {
