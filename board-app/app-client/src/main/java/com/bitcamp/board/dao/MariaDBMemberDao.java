@@ -1,7 +1,6 @@
 package com.bitcamp.board.dao;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
@@ -10,13 +9,18 @@ import com.bitcamp.board.domain.Member;
 
 // MemberDao와 통신을 담당할 대행 객체
 //
-public class MariaDBMemberDao {
+public class MariaDBMemberDao implements MemberDao {
 
+  Connection con;
+
+  public MariaDBMemberDao(Connection con) throws Exception {
+    this.con = con;
+  }
+
+  @Override
   public int insert(Member member) throws Exception {
-    try (Connection con = DriverManager.getConnection(
-        "jdbc:mariadb://localhost:3306/studydb","study","1111");
-        PreparedStatement pstmt = con.prepareStatement(
-            "insert into app_member2(name,email,pwd) values(?,?,sha2(?,256))")) {
+    try (PreparedStatement pstmt = con.prepareStatement(
+        "insert into app_member2(name,email,pwd) values(?,?,sha2(?,256))")) {
 
       pstmt.setString(1, member.name);
       pstmt.setString(2, member.email);
@@ -26,11 +30,10 @@ public class MariaDBMemberDao {
     }
   }
 
+  @Override
   public Member findByNo(int no) throws Exception {
-    try (Connection con = DriverManager.getConnection(
-        "jdbc:mariadb://localhost:3306/studydb","study","1111");
-        PreparedStatement pstmt = con.prepareStatement(
-            "select mno,name,email,cdt from app_member2 where mno = " + no);
+    try (PreparedStatement pstmt = con.prepareStatement(
+        "select mno,name,email,cdt from app_member2 where mno = " + no);
         ResultSet rs = pstmt.executeQuery();) {
 
       Member member = new Member();
@@ -48,11 +51,10 @@ public class MariaDBMemberDao {
     }
   }
 
+  @Override
   public int update(Member member) throws Exception {
-    try (Connection con = DriverManager.getConnection(
-        "jdbc:mariadb://localhost:3306/studydb","study","1111");
-        PreparedStatement pstmt = con.prepareStatement(
-            "update app_member2 set name=?,email=?,pwd=? where mno=?")) {
+    try (PreparedStatement pstmt = con.prepareStatement(
+        "update app_member2 set name=?,email=?,pwd=? where mno=?")) {
 
       pstmt.setString(1, member.name);
       pstmt.setString(2, member.email);
@@ -63,24 +65,33 @@ public class MariaDBMemberDao {
     }
   }
 
+  @Override
   public int delete(int no) throws Exception {
-    try (Connection con = DriverManager.getConnection(
-        "jdbc:mariadb://localhost:3306/studydb","study","1111");
-        PreparedStatement pstmt1 = con.prepareStatement("delete from app_board2 where bno=?");
+    try (PreparedStatement pstmt1 = con.prepareStatement("delete from app_board2 where bno=?");
         PreparedStatement pstmt2 = con.prepareStatement("delete from app_member2 where mno=?")) {
+
+      con.setAutoCommit(false);
 
       pstmt1.setInt(1, no);
       pstmt1.executeUpdate();
 
       pstmt2.setInt(1, no);
-      return pstmt2.executeUpdate();
+      int count = pstmt2.executeUpdate();
+
+      con.commit();
+
+      return count;
+    } catch (Exception e) {
+      con.rollback();
+      throw e;
+    } finally {
+      con.setAutoCommit(true);
     }
   }
 
+  @Override
   public List<Member> findAll() throws Exception {
-    try (Connection con = DriverManager.getConnection(
-        "jdbc:mariadb://localhost:3306/studydb","study","1111");
-        PreparedStatement pstmt = con.prepareStatement("select mno,name,email from app_member2");
+    try (PreparedStatement pstmt = con.prepareStatement("select mno,name,email from app_member2");
         ResultSet rs = pstmt.executeQuery()) {
 
       List<Member> list = new ArrayList<>();
