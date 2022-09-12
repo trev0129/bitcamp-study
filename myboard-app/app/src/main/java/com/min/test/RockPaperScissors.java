@@ -174,4 +174,14 @@ public class RockPaperScissors {
       System.out.println("비겼습니다!");
     }
   }
+
+
+  static void countDown() {
+    int ran = new Random().nextInt(3);
+    String result = randomResult(ran);
+    System.out.println(3);
+    System.out.println(2);
+    System.out.println(1);
+    System.out.println("시간 초과!");
+  }
 }
