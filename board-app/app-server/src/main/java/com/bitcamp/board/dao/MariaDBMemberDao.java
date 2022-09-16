@@ -20,7 +20,7 @@ public class MariaDBMemberDao implements MemberDao {
   @Override
   public int insert(Member member) throws Exception {
     try (PreparedStatement pstmt = con.prepareStatement(
-        "insert into app_member2(name,email,pwd) values(?,?,sha2(?,256))")) {
+        "insert into app_member(name,email,pwd) values(?,?,sha2(?,256))")) {
 
       pstmt.setString(1, member.name);
       pstmt.setString(2, member.email);
@@ -33,7 +33,7 @@ public class MariaDBMemberDao implements MemberDao {
   @Override
   public Member findByNo(int no) throws Exception {
     try (PreparedStatement pstmt = con.prepareStatement(
-        "select mno,name,email,cdt from app_member2 where mno = " + no);
+        "select mno,name,email,cdt from app_member where mno = " + no);
         ResultSet rs = pstmt.executeQuery();) {
 
       Member member = new Member();
@@ -54,7 +54,7 @@ public class MariaDBMemberDao implements MemberDao {
   @Override
   public int update(Member member) throws Exception {
     try (PreparedStatement pstmt = con.prepareStatement(
-        "update app_member2 set name=?,email=?,pwd=? where mno=?")) {
+        "update app_member set name=?,email=?,pwd=? where mno=?")) {
 
       pstmt.setString(1, member.name);
       pstmt.setString(2, member.email);
@@ -67,8 +67,8 @@ public class MariaDBMemberDao implements MemberDao {
 
   @Override
   public int delete(int no) throws Exception {
-    try (PreparedStatement pstmt1 = con.prepareStatement("delete from app_board2 where bno=?");
-        PreparedStatement pstmt2 = con.prepareStatement("delete from app_member2 where mno=?")) {
+    try (PreparedStatement pstmt1 = con.prepareStatement("delete from app_board where bno=?");
+        PreparedStatement pstmt2 = con.prepareStatement("delete from app_member where mno=?")) {
 
       con.setAutoCommit(false);
 
@@ -91,7 +91,7 @@ public class MariaDBMemberDao implements MemberDao {
 
   @Override
   public List<Member> findAll() throws Exception {
-    try (PreparedStatement pstmt = con.prepareStatement("select mno,name,email from app_member2");
+    try (PreparedStatement pstmt = con.prepareStatement("select mno,name,email from app_member");
         ResultSet rs = pstmt.executeQuery()) {
 
       List<Member> list = new ArrayList<>();
