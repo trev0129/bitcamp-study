@@ -4,6 +4,7 @@ import java.util.List;
 import com.bitcamp.board.domain.Member;
 
 public interface MemberDao {
+
   int insert(Member member) throws Exception;
 
   Member findByNo(int no) throws Exception;
@@ -13,5 +14,18 @@ public interface MemberDao {
   int delete(int no) throws Exception;
 
   List<Member> findAll() throws Exception;
-
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
