@@ -1,28 +1,11 @@
 package com.bitcamp.board;
 
-import static org.reflections.scanners.Scanners.TypesAnnotated;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.io.StringWriter;
-import java.lang.reflect.Constructor;
-import java.lang.reflect.Parameter;
 import java.net.InetSocketAddress;
 import java.net.URI;
-import java.net.URLDecoder;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
-import org.reflections.Reflections;
-import com.bitcamp.board.dao.BoardDao;
-import com.bitcamp.board.dao.MariaDBBoardDao;
-import com.bitcamp.board.dao.MariaDBMemberDao;
-import com.bitcamp.board.dao.MemberDao;
-import com.bitcamp.board.handler.ErrorHandler;
-import com.bitcamp.servlet.Servlet;
-import com.bitcamp.servlet.WebServlet;
 import com.sun.net.httpserver.Headers;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
@@ -39,72 +22,12 @@ import com.sun.net.httpserver.HttpServer;
 //
 public class MiniWebServer {
 
-  public static void main2(String[] args) throws Exception {
-    // 클래스를 찾아주는 도구를 준비
-    Reflections reflections = new Reflections("com.bitcamp.board");
 
-    //    //지정된 패키지에서 @WebServlet 애노테이션이 붙은 클래스를 모두 찾느다.'
-    //    // 검색필터1) WebServlet 애노테이션이 붙어있는 클래스의 이름들을 모두 찾아라!
-    //    QueryFunction<Store,String> 검색필터1 = TypesAnnotated.with(WebServlet.class);
-    //    // 검색필터2) 찾은 클래스 이름을 가지고 클래스를 Method Area영역에 로딩하여
-    //    //            Class객체 목록을 리턴하라!
-    //    QueryFunction<Store,Class<?>> 검색필터2 = 검색필터1.asClass();
-    //
-    //    // 위의 두 검색 조건으로 클래스를 찾는다.
-    //    Set<Class<?>> 서블릿클래스들 = reflections.get(검색필터2);
-    //    for (Class<?> 서블릿클래스정보 : 서블릿클래스들) {
-    //      System.out.println(서블릿클래스정보.getName());
-    //    }
-
-    Set<Class<?>> servlets = reflections.get(TypesAnnotated.with(WebServlet.class).asClass());
-
-    // 
-    for (Class<?> servlet : servlets) {
-      WebServlet anno = servlet.getAnnotation(WebServlet.class);
-      System.out.printf("%s ---> %s\n", anno.value(), servlet.getName());
-    }
-
-
-  }
 
   public static void main(String[] args) throws Exception {
-    Connection con = DriverManager.getConnection(
-        "jdbc:mariadb://localhost:3306/studydb","study","1111");
 
-    BoardDao boardDao = new MariaDBBoardDao(con);
-    MemberDao memberDao = new MariaDBMemberDao(con);
-
-
-
-    Map<String,Servlet> servletMap = new HashMap<>();
-
-    // WebServlet 애노테이션이 붙은 클래스를 찾아 객체를 생성한 후 맵에 저장한다.
-    // 맵에 저장할 때 사용할 key는 Servlet 애노테이션에 설정된 값이다.
-    Reflections reflections = new Reflections("com.bitcamp.board");
-    Set<Class<?>> servlets = reflections.get(TypesAnnotated.with(WebServlet.class).asClass());
-
-    // 
-    for (Class<?> servlet : servlets) {
-      String servletPath = servlet.getAnnotation(WebServlet.class).value();
-
-      Constructor<?> constructor = servlet.getConstructors()[0];
-      Parameter[] params = constructor.getParameters();
-
-      if (params.length == 0) {
-        servletMap.put(servletPath, (Servlet) constructor.newInstance());
-
-      } else if (params[0].getType() == BoardDao.class){
-        servletMap.put(servletPath, (Servlet) constructor.newInstance(boardDao));
-
-      } else if (params[0].getType() == MemberDao.class){
-        servletMap.put(servletPath, (Servlet) constructor.newInstance(memberDao));
-
-      }
-
-    }
-
-    ErrorHandler errorHandler = new ErrorHandler();
-
+    // 애플리케이션 컨테이너 객체 준비
+    ApplicationContainer appContainer = new ApplicationContainer("com.bitcamp.board");
 
     class MyHttpHandler implements HttpHandler {
       @Override
@@ -113,31 +36,14 @@ public class MiniWebServer {
 
         URI requestUri = exchange.getRequestURI();
         String path = requestUri.getPath();
-        // String query = requestUri.getQuery(); // 디코딩을 제대로 수행하지 못한다!
         String query = requestUri.getRawQuery(); // 디코딩 없이 query string을 그대로 리턴 받기!
         byte[] bytes = null;
 
         try (StringWriter stringWriter = new StringWriter();
             PrintWriter printWriter = new PrintWriter(stringWriter)) {
 
-          Map<String,String> paramMap = new HashMap<>();
-          if (query != null && query.length() > 0) { // 예) no=1&title=aaaa&content=bbb
-            String[] entries = query.split("&");
-            for (String entry : entries) { // 예) no=1
-              String[] kv = entry.split("=");
-              // 웹브라우저가 보낸 파라미터 값은 저장하기 전에 URL 디코딩 한다.
-              paramMap.put(kv[0], URLDecoder.decode(kv[1], "UTF-8"));
-            }
-          }
-          System.out.println(paramMap);
-
-          Servlet servlet = servletMap.get(path);
-
-          if (servlet != null) {
-            servlet.service(paramMap, printWriter);
-          } else {
-            errorHandler.service(paramMap, printWriter);
-          }
+          // 애플리케이션을 찾아 실행하는 것을 앱 컨테이너에게 위
+          appContainer.execute(path, query, printWriter);
 
           bytes = stringWriter.toString().getBytes("UTF-8");
 
@@ -160,7 +66,7 @@ public class MiniWebServer {
 
     HttpServer server = HttpServer.create(new InetSocketAddress(8888), 0);
     server.createContext("/", new MyHttpHandler()); 
-    server.setExecutor(null); 
+    server.setExecutor(null);  // 멀티스레드 관리
     server.start();
 
     System.out.println("서버 시작!");

@@ -1,6 +1,9 @@
 plugins {
     id 'application'
-    id 'eclipse'
+    // id 'eclipse' <--eclipse-wtp에서 포함
+    
+    id 'eclipse-wtp' //웹 애플리케이션 관련 설정 파일을 추가로 생성
+    id 'war' // *.war 배포파일을 생
 }
 
 repositories {
@@ -13,6 +16,11 @@ dependencies {
     implementation 'com.google.code.gson:gson:2.9.1'
     implementation 'org.mariadb.jdbc:mariadb-java-client:3.0.7'
     implementation 'org.reflections:reflections:0.10.2'
+    
+    // 웹 애플리케이션에서 사용하는 자바 표준 웹 라이브러리
+    // 단, 개발할 때에만 사용한다. 배포할 필요는 없다.
+    // 왜? 톰캣버서에 이미 존재한다.
+    providedCompile 'javax.servlet:javax.servlet-api:4.0.1'
     // implementation project(':app-common')
 }
 
@@ -40,9 +48,36 @@ eclipse {
         // 프로젝트 이름을 지정하지 않으면 build.gradle 파일이 있는 
         // 폴더 이름을 프로젝트 이름을 사용한다.
     }
+    
+  
     jdt {
       sourceCompatibility = 11
       targetCompatibility = 11
       javaRuntimeName = "JavaSE-11"
     }
+        // 자바 웹 개발 도구에서 사용할 값을 설정한다.
+    wtp {
+        facet {//웹애플리케이션의 환경 정보 설정
+        // 웹 애플리케이션을 실행할 때 필요한 최소의 자바 버전 설
+            //you can add some extra wtp facets or update existing ones; mandatory keys: 'name', 'version':
+            facet name: 'jst.java', version: '11'
+
+            // 웹 애플리케이션에서 사용할 서블릿 버전 설정
+            facet name: 'jst.web', version: '4.0'
+
+        }
+        component {
+            //you can configure the context path:
+            //contextPath = '/web'
+
+            //you can configure the deployName:
+            //deployName = 'web'
+        }
+    }
+}
+
+// 웹 애플리케이션 배포 파일(.war)을 만들 때 사용할 기본 파일 이름을 설정한다.
+// 이 이름은 웹 애플리케이션 context root 경로로도 사용된다.
+war {
+    archiveBaseName = "app"
 }
