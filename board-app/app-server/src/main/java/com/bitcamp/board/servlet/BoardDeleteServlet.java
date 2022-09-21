@@ -1,3 +1,6 @@
+/*
+ * 게시글 메뉴 처리 클래스
+ */
 package com.bitcamp.board.servlet;
 
 import java.io.IOException;
@@ -8,36 +11,45 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-
-@WebServlet(value="/welcome")
-public class WelcomeServlet extends HttpServlet {
+@WebServlet(value="/board/delete")
+public class BoardDeleteServlet extends HttpServlet {
 
   private static final long serialVersionUID = 1L;
+
 
   @Override
   protected void doGet(HttpServletRequest req, HttpServletResponse resp)
       throws ServletException, IOException {
-
-    // 콘텐트를 출력하기 위해 출력 스트림을 준비하기 전에
-    // 어떤 인코딩으로 출력할 것인지 먼저 설정해야 한다.
-    resp.setContentType("text/html; charset=UTF-8");
-
+    resp.setContentType("text/html;charset=UTF-8");
     PrintWriter out = resp.getWriter();
-
     out.println("<!DOCTYPE html>");
     out.println("<html>");
     out.println("<head>");
     out.println("<meta charset=\"UTF-8\">");
     out.println("<title>bitcamp</title>");
+    out.println("<meta http-equiv='Refresh' content='1; url=list'>");
     out.println("</head>");
     out.println("<body>");
-    out.println("<h1>환영합니다!3</h1>");
-    out.println("<p>비트캠프 게시판 관리 시스템 프로젝트입니다.</p>");
-    out.println("<ul>");
-    out.println("  <li><a href='board/list'>게시글</a></li>");
-    out.println("  <li><a href='member/list'>회원</a></li>");
-    out.println("</ul>");
+    out.println("<h1>게시글 삭제</h1>");
+
+    int boardNo = Integer.parseInt(req.getParameter("no"));
+    try {
+      if (AppInitServlet.boardDao.delete(boardNo) == 0) {
+        out.println("<p>해당 번호의 게시글이 없습니다.</p>");
+
+      } else {
+        out.println("<p>해당 게시글을 삭제했습니다.</p>");
+      }
+    } catch(Exception e) {
+      out.println("<p>실행 중 오류 발생!,/p>");
+    }
+
     out.println("</body>");
     out.println("</html>");
+
   }
 }
+
+
+
+
