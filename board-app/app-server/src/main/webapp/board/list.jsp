@@ -8,7 +8,7 @@
 <%! 
   BoardDao boardDao;
 
-  public void init() throws ServletException {
+  public void jspInit() {
     boardDao = (BoardDao) this.getServletContext().getAttribute("boardDao");
   }
 %>
