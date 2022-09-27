@@ -23,13 +23,15 @@ public class BoardDetailController extends HttpServlet {
   @Override
   protected void doGet(HttpServletRequest request, HttpServletResponse response)
       throws ServletException, IOException {
-    int boardNo = Integer.parseInt(request.getParameter("no"));
     try {
+      int boardNo = Integer.parseInt(request.getParameter("no"));
+
       Board board = boardDao.findByNo(boardNo);
 
       if (board == null) {
-        throw new Exception("해당 번호의 게시글이 없습니다.");
+        throw new Exception("해당 번호의 게시글이 없습니다!");
       }
+
       request.setAttribute("board", board);
 
       response.setContentType("text/html;charset=UTF-8");
@@ -37,7 +39,13 @@ public class BoardDetailController extends HttpServlet {
 
     } catch (Exception e) {
       request.setAttribute("exception", e);
-      request.getRequestDispatcher("/error.jsp").forward(request, response); 
+      request.getRequestDispatcher("/error.jsp").forward(request, response);
     }
   }
 }
+
+
+
+
+
+

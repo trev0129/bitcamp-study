@@ -56,4 +56,5 @@ public class Member {
     this.createdDate = createdDate;
   }
 
+
 }

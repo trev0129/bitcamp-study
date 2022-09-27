@@ -11,7 +11,7 @@
 <form action='update'>
 <table border='1'>
   <tr>
-    <th>번호</th><td><input name='no' type='number' value='${board.boardNo}' readonly></td>
+    <th>번호</th><td><input name='no' type='number' value='${board.no}' readonly></td>
   </tr>
   <tr>
     <th>제목</th><td><input name='title' type='text' value='${board.title}' size='60'></td>
@@ -31,7 +31,7 @@
 </table>
 <p>
   <button type='submit'>변경</button>
-  <a href='delete?no=${board.boardNo}'>삭제</a>
+  <a href='delete?no=${board.no}'>삭제</a>
 </p>
 </form>
 </body>

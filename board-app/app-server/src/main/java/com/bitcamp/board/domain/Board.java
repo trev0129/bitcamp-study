@@ -19,11 +19,11 @@ public class Board {
         + createdDate + "]";
   }
 
-  public int getBoardNo() {
+  public int getNo() {
     return no;
   }
 
-  public void setBoardNo(int no) {
+  public void setNo(int no) {
     this.no = no;
   }
 

@@ -26,16 +26,20 @@ public class MemberDeleteController extends HttpServlet {
       int no = Integer.parseInt(request.getParameter("no"));
 
       if (memberDao.delete(no) == 0) {
-        throw new Exception("회원을 삭제할 수 없습니다.");
+        throw new Exception("회원 삭제 오류입니다!");
       }
+
       response.sendRedirect("list");
 
     } catch (Exception e) {
       request.setAttribute("exception", e);
-      request.getRequestDispatcher("/error.jsp").forward(request, response); // JSP를 실행한 후 리턴한다.
-
+      request.getRequestDispatcher("/error.jsp").forward(request, response); 
     }
-
-
   }
 }
+
+
+
+
+
+

@@ -23,25 +23,28 @@ public class MemberUpdateController extends HttpServlet {
   @Override
   protected void doGet(HttpServletRequest request, HttpServletResponse response)
       throws ServletException, IOException {
-
-    Member member = new Member();
-    member.no = Integer.parseInt(request.getParameter("no"));
-    member.name = request.getParameter("name");
-    member.email = request.getParameter("email");
-    member.password = request.getParameter("password");
-
     try {
+      Member member = new Member();
+      member.no = Integer.parseInt(request.getParameter("no"));
+      member.name = request.getParameter("name");
+      member.email = request.getParameter("email");
+      member.password = request.getParameter("password");
+
       if (memberDao.update(member) == 0) {
-        throw new Exception("회원을 변경할 수 없습니다.");
+        throw new Exception("회원 변경 오류입니다!");
       }
+
       response.sendRedirect("list");
 
     } catch (Exception e) {
       request.setAttribute("exception", e);
-      request.getRequestDispatcher("/error.jsp").forward(request, response); // JSP를 실행한 후 리턴한다.
-
+      request.getRequestDispatcher("/error.jsp").forward(request, response); 
     }
-
-
   }
 }
+
+
+
+
+
+

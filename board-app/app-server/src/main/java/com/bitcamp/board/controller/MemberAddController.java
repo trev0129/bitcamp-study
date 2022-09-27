@@ -23,7 +23,6 @@ public class MemberAddController extends HttpServlet {
   @Override
   protected void doGet(HttpServletRequest request, HttpServletResponse response)
       throws ServletException, IOException {
-
     try {
       Member member = new Member();
       member.name = request.getParameter("name");
@@ -31,16 +30,20 @@ public class MemberAddController extends HttpServlet {
       member.password = request.getParameter("password");
 
       if (memberDao.insert(member) == 0) {
-        throw new Exception("회원을 등록할 수 없습니다.");
+        throw new Exception("회원 등록 오류입니다!");
       }
+
       response.sendRedirect("list");
 
     } catch (Exception e) {
       request.setAttribute("exception", e);
-      request.getRequestDispatcher("/error.jsp").forward(request, response); // JSP를 실행한 후 리턴한다.
-
+      request.getRequestDispatcher("/error.jsp").forward(request, response); 
     }
-
-
   }
 }
+
+
+
+
+
+
