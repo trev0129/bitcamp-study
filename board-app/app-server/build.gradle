@@ -17,13 +17,18 @@ dependencies {
     implementation 'org.mariadb.jdbc:mariadb-java-client:3.0.7'
     implementation 'org.reflections:reflections:0.10.2'
     
+    // JSTL 명세를 구현한 라이브러
     implementation 'javax.servlet:jstl:1.2'
+    
+    // multipart/form-data 형식의 데이터를 처리하는 라이브러
+    implementation 'commons-fileupload:commons-fileupload:1.4'
     
     // 웹 애플리케이션에서 사용하는 자바 표준 웹 라이브러리
     // 단, 개발할 때에만 사용한다. 배포할 필요는 없다.
     // 왜? 톰캣버서에 이미 존재한다.
     providedCompile 'javax.servlet:javax.servlet-api:4.0.1'
     // implementation project(':app-common')
+    
     
     
 }
