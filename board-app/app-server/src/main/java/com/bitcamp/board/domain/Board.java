@@ -13,16 +13,14 @@ public class Board {
   private Date createdDate;
   private Member writer;
 
-  // 첨부파일명을 저장할 필드
+  // 첨부파일 정보를 저장할 필드
   private List<AttachedFile> attachedFiles;
-
-
 
   @Override
   public String toString() {
     return "Board [no=" + no + ", title=" + title + ", content=" + content + ", password="
         + password + ", viewCount=" + viewCount + ", createdDate=" + createdDate + ", writer="
-        + writer + ", filenames=" + attachedFiles + "]";
+        + writer + "]";
   }
 
   public int getNo() {
@@ -90,8 +88,8 @@ public class Board {
   }
 
 
-
 }
+
 
 
 

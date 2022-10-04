@@ -1,4 +1,4 @@
-<%@ page language="java"
+<%@ page language="java" 
     contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -10,7 +10,7 @@
 <body>
 <h1>게시글 입력-JSP</h1>
 
-<form action='add' method='post' enctype="multipart/form-data">
+<form action='add' method="post" enctype="multipart/form-data">
 <table border='1'>
   <tr>
     <th>제목</th><td><input name='title' type='text' size='60'></td>

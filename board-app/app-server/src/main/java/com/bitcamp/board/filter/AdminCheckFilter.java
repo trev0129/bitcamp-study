@@ -17,25 +17,33 @@ public class AdminCheckFilter implements Filter {
 
   @Override
   public void init(FilterConfig filterConfig) throws ServletException {
-    System.out.println("adminCheckFilter.init() 실행!");
+    System.out.println("AdminCheckFilter.init() 실행!");
   }
 
   @Override
   public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
       throws IOException, ServletException {
-    System.out.println("adminCheckFilter.doFilter() 실행!");
+    System.out.println("AdminCheckFilter.doFilter() 실행!");
 
     HttpServletRequest httpRequest = (HttpServletRequest) request;
     HttpServletResponse httpResponse = (HttpServletResponse) response;
 
     Member loginMember = (Member) httpRequest.getSession().getAttribute("loginMember");
-    if (loginMember == null ||
-        !loginMember.getEmail().equals("admin@test.com")) { // admin이 아니라면
+    if (loginMember == null || // 로그인이 안됐거나 
+        !loginMember.getEmail().equals("admin@test.com")) { // 관리자가 아니라면
       httpResponse.sendRedirect(httpRequest.getContextPath() + "/");
       return;
     }
 
     chain.doFilter(request, response);
-
   }
+
 }
+
+
+
+
+
+
+
+

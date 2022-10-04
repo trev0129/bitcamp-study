@@ -1,4 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
+<%@ page language="java" 
+    contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -9,7 +10,7 @@
 <body>
 <h1>회원 입력-JSP</h1>
 
-<form action='add' method='post'>
+<form action='add' method="post">
 <table border='1'>
   <tr>
     <th>이름</th><td><input name='name' type='text' size='60'></td>
@@ -26,5 +27,6 @@
   <a href='list'>목록</a>
 </p>
 </form>
+
 </body>
 </html>

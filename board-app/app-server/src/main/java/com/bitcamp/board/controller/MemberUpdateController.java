@@ -24,7 +24,6 @@ public class MemberUpdateController extends HttpServlet {
   protected void doPost(HttpServletRequest request, HttpServletResponse response)
       throws ServletException, IOException {
     try {
-
       request.setCharacterEncoding("UTF-8");
 
       Member member = new Member();
