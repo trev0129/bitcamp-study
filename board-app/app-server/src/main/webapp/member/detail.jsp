@@ -30,6 +30,7 @@
 <p>
   <button type='submit'>변경</button>
   <a href='delete?no=${member.no}'>삭제</a>
+    <a href='list'>목록</a>
 </p>
 </form>
 
