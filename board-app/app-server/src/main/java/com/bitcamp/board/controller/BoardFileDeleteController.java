@@ -40,7 +40,7 @@ public class BoardFileDeleteController extends HttpServlet {
       }
 
       // 첨부파일을 삭제한다.
-      if (boardService.deleteAttachedFile(no)) {
+      if (!boardService.deleteAttachedFile(no)) {
         throw new Exception("게시글 첨부파일을 삭제할 수 없습니다.");
       }
 
