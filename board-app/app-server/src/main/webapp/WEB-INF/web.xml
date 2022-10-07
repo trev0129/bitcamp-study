@@ -11,26 +11,17 @@
     </description>
     
     <display-name>board-app</display-name>
+        
     
-    <servlet>
-      <servlet-name>board/form</servlet-name>
-      <jsp-file>/board/form.jsp</jsp-file>
+<!--     <servlet>
+      <servlet-name>DispatherServlet</servlet-name>
+      <servlet-class>com.bitcamp.servlet.DispatherServlet</servlet-class>
     </servlet>
     <servlet-mapping>
-      <servlet-name>board/form</servlet-name>
-      <url-pattern>/board/form</url-pattern>
+      <servlet-name>DispatherServlet</servlet-name>
+      <url-pattern>/service/*</url-pattern>
     </servlet-mapping>
-    
-    
-    <servlet>
-      <servlet-name>member/form</servlet-name>
-      <jsp-file>/member/form.jsp</jsp-file>
-    </servlet>
-    <servlet-mapping>
-      <servlet-name>member/form</servlet-name>
-      <url-pattern>/member/form</url-pattern>
-    </servlet-mapping>
-
+ -->
     <welcome-file-list>
       <welcome-file>index.html</welcome-file>
       <welcome-file>index.jsp</welcome-file>
