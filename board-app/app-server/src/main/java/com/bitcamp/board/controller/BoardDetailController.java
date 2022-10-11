@@ -2,11 +2,13 @@ package com.bitcamp.board.controller;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import com.bitcamp.board.domain.Board;
 import com.bitcamp.board.service.BoardService;
-import com.bitcamp.servlet.Controller;
 
-public class BoardDetailController implements Controller {
+@Controller
+public class BoardDetailController {
 
   BoardService boardService;
 
@@ -14,7 +16,7 @@ public class BoardDetailController implements Controller {
     this.boardService = boardService;
   }
 
-  @Override
+  @GetMapping("/board/detail")
   public String execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
     int boardNo = Integer.parseInt(request.getParameter("no"));
 

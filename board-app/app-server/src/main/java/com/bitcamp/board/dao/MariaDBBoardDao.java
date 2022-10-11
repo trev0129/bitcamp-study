@@ -4,18 +4,23 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
+import javax.sql.DataSource;
 import org.mariadb.jdbc.Statement;
+import org.springframework.stereotype.Repository;
 import com.bitcamp.board.domain.AttachedFile;
 import com.bitcamp.board.domain.Board;
 import com.bitcamp.board.domain.Member;
-import com.bitcamp.sql.DataSource;
 
+@Repository
+// 이 애노테이션을 붙이면 Spring IoC Container가 객체를 자동으로 생성한다.
+// 물론 생성자의 파라미터 값을 자동으로 주입한다. 
+// 파라미터에 해당하는 객체가 없다면 생성 오류가 발생한다.
 public class MariaDBBoardDao implements BoardDao {
 
   DataSource ds;
 
-  //DAO가 사용할 의존 객체 Connection을 생성자의 파라미터로 받는다.
   public MariaDBBoardDao(DataSource ds) {
+    System.out.println("MariaDBBoardDao 호출됨!");
     this.ds = ds;
   }
 
