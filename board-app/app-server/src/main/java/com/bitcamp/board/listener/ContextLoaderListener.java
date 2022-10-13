@@ -31,7 +31,6 @@ public class ContextLoaderListener implements ServletContextListener {
       AnnotationConfigWebApplicationContext iocContainer = 
           new AnnotationConfigWebApplicationContext();
       iocContainer.register(AppConfig.class);
-      iocContainer.refresh(); // 자바 config클래스의 설정된대로 객체를 생성한다. 
 
       ServletContext ctx = sce.getServletContext();
 
