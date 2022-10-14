@@ -26,13 +26,6 @@ public class AuthController {
     return "auth/form";
   }
 
-  //  // InternalResouceViewResolver 사요 
-  //  @GetMapping("form")
-  //  public View form() throws Exception {
-  //    return new JstlView("/auth/form.jsp");
-  //  }
-
-  // 'value'나 'path'나 같다.
   @PostMapping("login")
   public ModelAndView login(
       String email, 
