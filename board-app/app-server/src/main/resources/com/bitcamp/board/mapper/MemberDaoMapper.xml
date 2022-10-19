@@ -2,7 +2,7 @@
 <!DOCTYPE mapper
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="MemberDao"> <!-- 패키지명과 비슷 -->
+<mapper namespace="com.bitcamp.board.dao.MemberDao"> <!-- 패키지명과 비슷 -->
 
   <resultMap type="member" id="memberMap">
     <id column="mno" property="no"/>
