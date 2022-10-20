@@ -11,17 +11,17 @@
     </description>
     
     <display-name>board-app</display-name>
-        
     
-<!--     <servlet>
-      <servlet-name>DispatherServlet</servlet-name>
-      <servlet-class>com.bitcamp.servlet.DispatherServlet</servlet-class>
+<!--  
+    <servlet>
+      <servlet-name>DispatcherServlet</servlet-name>
+      <servlet-class>com.bitcamp.servlet.DispatcherServlet</servlet-class>
     </servlet>
     <servlet-mapping>
-      <servlet-name>DispatherServlet</servlet-name>
+      <servlet-name>DispatcherServlet</servlet-name>
       <url-pattern>/service/*</url-pattern>
     </servlet-mapping>
- -->
+-->
     <welcome-file-list>
       <welcome-file>index.html</welcome-file>
       <welcome-file>index.jsp</welcome-file>

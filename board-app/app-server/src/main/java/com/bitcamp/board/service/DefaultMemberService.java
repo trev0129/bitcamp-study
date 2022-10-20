@@ -3,25 +3,20 @@ package com.bitcamp.board.service;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.Transactional;
 import com.bitcamp.board.dao.BoardDao;
 import com.bitcamp.board.dao.MemberDao;
 import com.bitcamp.board.domain.Member;
 
-// 비즈니스 로직을 수행하는 객체 
-// - 메서드의 이름은 업무와 관련된 이름을 사용한다.
-@Service
+@Service 
 public class DefaultMemberService implements MemberService {
-
-  @Autowired 
-  PlatformTransactionManager txManager; 
 
   @Autowired
   MemberDao memberDao;
 
   @Autowired
   BoardDao boardDao;
+
 
   @Override
   public void add(Member member) throws Exception {
@@ -46,15 +41,21 @@ public class DefaultMemberService implements MemberService {
   @Transactional
   @Override
   public boolean delete(int no) throws Exception {
-    boardDao.deleteFilesByMemberBoards(no);
-    boardDao.deleteByMember(no);
-    boolean result = memberDao.delete(no) > 0;
-    return result;
+    boardDao.deleteFilesByMemberBoards(no); // 회원이 작성한 게시글의 모든 첨부파일 삭제
+    boardDao.deleteByMember(no); // 회원이 작성한 게시글 삭제
+    return memberDao.delete(no) > 0; // 회원 삭제
   }
 
   @Override
   public List<Member> list() throws Exception {
     return memberDao.findAll();
   }
-
 }
+
+
+
+
+
+
+
+
