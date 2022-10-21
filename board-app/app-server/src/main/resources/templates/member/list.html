@@ -20,7 +20,6 @@ tr:hover {
     <th>이름</th>
     <th>이메일</th>
   </tr>
-<c:forEach items="${members}" var="member">
   <tr data-th-each="member : ${members}">
     <td data-th-text="${member.no}">1</td>
     <td>
@@ -29,7 +28,6 @@ tr:hover {
       data-th-text="${member.name}">제목</a></td>
     <td data-th-text="${member.email}">이메일</td>
   </tr>
-</c:forEach>
 </table>
 <p><a href='../'>메인</a></p>
 </body>
