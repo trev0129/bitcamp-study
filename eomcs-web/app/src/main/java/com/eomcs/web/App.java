@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class App {
 
   public static void main(String[] args) {
+    System.out.println("Server Start!!");
     SpringApplication.run(App.class, args);
   }
 
